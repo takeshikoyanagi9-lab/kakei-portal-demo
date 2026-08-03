@@ -338,6 +338,24 @@
   .todo-tag{margin-left:auto;font-size:.66rem;font-weight:900;color:#fff;background:var(--green);border-radius:999px;padding:3px 11px;white-space:nowrap;flex:none}
   .gap-pos{color:#2f9e5f;font-weight:900}.gap-neg{color:#d1483f;font-weight:900}
 
+  /* ===== 研修・自己点検 ===== */
+  .progress{height:14px;border-radius:999px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin-top:6px}
+  .progress .pf{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--turq))}
+  .prog-lab{display:flex;justify-content:space-between;font-size:.74rem;color:var(--sub);font-weight:700;margin-top:6px}
+  .chk{display:flex;flex-direction:column;gap:10px}
+  .chk .q{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .chk .q .qt{font-weight:700;font-size:.9rem;flex:1;line-height:1.5}
+  .chk .opts{display:flex;gap:6px;flex:none}
+  .chk .opts button{border:1px solid var(--line);background:var(--card);color:var(--sub);font-weight:800;font-size:.82rem;border-radius:999px;padding:7px 15px;cursor:pointer}
+  .chk .opts button.on-yes{background:var(--green);color:#fff;border-color:var(--green)}
+  .chk .opts button.on-no{background:var(--red);color:#fff;border-color:var(--red)}
+  .chk-note{margin-top:12px}
+  .chk-note textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-family:inherit;font-size:.88rem;resize:vertical;min-height:64px;background:var(--card);color:var(--ink)}
+  .chk-submit{margin-top:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .chk-submit button{border:0;background:var(--blue);color:#fff;font-weight:800;font-size:.92rem;border-radius:999px;padding:12px 26px;cursor:pointer}
+  .chk-count{font-size:.8rem;color:var(--sub);font-weight:800}
+  .chk-done{color:#2f9e5f;font-weight:900;display:none}
+
   .note{max-width:none;margin:6px auto 0;padding:0 clamp(12px,1.8vw,30px);font-size:.72rem;color:var(--sub)}
 
   /* ===== WIDE-SCALE：広い画面で固定px要素も拡大（末尾＝カスケード最優先） ===== */
@@ -444,6 +462,28 @@
         <a href="#" data-detail="faq"><span class="qic" style="background:var(--green)">❓</span>FAQ</a>
         <a href="#" data-detail="org"><span class="qic" style="background:var(--orange)">👥</span>組織図</a>
       </div>
+    </div>
+
+    <!-- ▼ 研修の受講管理 ＋ 今月の自己点検 -->
+    <div class="card col-6 clickable" style="--ac:var(--blue)" data-detail="training"><span class="corner"></span>
+      <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg></span>
+        <div><h2>研修の受講管理</h2><div class="sub">期限つき依頼・未受講はアラート</div></div><span class="badge" style="background:var(--red)">未受講 1</span></div>
+      <div class="appt">
+        <div class="a"><span class="av" style="background:var(--red)">!</span><div><div class="who">7月度 コンプライアンス研修</div><div class="where">期限 7/31（超過）・管理者へ通知済み</div></div><span class="tm" style="color:var(--red)">超過</span></div>
+        <div class="a"><span class="av" style="background:var(--orange)">受</span><div><div class="who">個人情報保護 基礎</div><div class="where">期限 8/8</div></div><span class="tm">未受講</span></div>
+      </div>
+      <div class="prog-lab"><span>全社の受講率</span><span>87%</span></div>
+      <div class="progress"><div class="pf" style="width:87%"></div></div>
+      <span class="go-hint">→</span>
+    </div>
+
+    <div class="card col-6 clickable" style="--ac:var(--green)" data-detail="selfcheck"><span class="corner"></span>
+      <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+        <div><h2>今月の自己点検</h2><div class="sub">イントラでそのまま回答</div></div><span class="badge" style="background:var(--orange)">未提出</span></div>
+      <p class="quote" style="font-size:.92rem;font-family:inherit;line-height:1.7">コンプラ・募集ルールの月次セルフチェック（全10問）。この画面でチェックして提出できます。</p>
+      <div class="prog-lab"><span>あなたの回答</span><span>0 / 10</span></div>
+      <div class="progress"><div class="pf" style="width:0%;background:linear-gradient(90deg,var(--green),#8fd6a6)"></div></div>
+      <span class="go-hint">→</span>
     </div>
 
     <!-- ▼ 行B：今日の営業マップ＋天気 -->
@@ -852,6 +892,27 @@
     return '<div class="dl-row" data-cat="'+(cat||'')+'" style="--ac:'+color+'"><span class="di">'+emoji+'</span><div><div class="dn">'+name+'</div><div class="dm">'+meta+'</div></div><button class="dbtn">'+(btn||'ダウンロード')+'</button></div>';
   }
   var H3='style="font-weight:900;font-size:1.05rem;margin:18px 0 10px"';
+  // 自己点検：設問HTML生成＋回答/提出
+  function chkQ_(text){
+    return '<div class="q"><span class="qt">'+text+'</span><span class="opts"><button type="button" onclick="chkAns(this,\'yes\')">はい</button><button type="button" onclick="chkAns(this,\'no\')">いいえ</button></span></div>';
+  }
+  function chkAns(btn,val){
+    var q=btn.closest('.q');
+    q.querySelectorAll('button').forEach(function(b){b.classList.remove('on-yes','on-no');});
+    btn.classList.add(val==='yes'?'on-yes':'on-no');
+    q.dataset.answered='1';
+    var qs=document.querySelectorAll('#dtBody .chk .q');
+    var done=Array.prototype.filter.call(qs,function(x){return x.dataset.answered;}).length;
+    var c=document.getElementById('chkCount'); if(c) c.textContent='回答 '+done+' / '+qs.length;
+  }
+  function chkSubmit(){
+    var qs=document.querySelectorAll('#dtBody .chk .q');
+    var done=Array.prototype.filter.call(qs,function(x){return x.dataset.answered;}).length;
+    if(done<qs.length){ alert('未回答が '+(qs.length-done)+' 件あります。全項目に回答してください。'); return; }
+    var d=document.getElementById('chkDone'); if(d) d.style.display='inline';
+    var btn=document.querySelector('#dtBody .chk-submit button'); if(btn){ btn.textContent='提出済'; btn.style.background='var(--green)'; btn.disabled=true; }
+  }
+
   var DETAILS={
     applications:{eyebrow:'DOWNLOAD ／ 総務部',title:'申請書ダウンロード',html:
       '<h1 class="dh">申請書ダウンロード</h1><p class="dlead">労務・経費・休暇など、社内の全様式をここから。手続きの流れと添付書類もセットで案内します（サンプル）。</p>'+
@@ -1071,6 +1132,36 @@
       '</div>'+
       '<div class="pn-lead" style="border-left-color:var(--green);margin-top:16px"><span class="pn-tag" style="background:var(--green)">今日の1歩</span><h3 class="pn-h" style="font-size:1.2rem">まずは「初回の深掘り質問」を1つだけ試す</h3><p class="pn-sub">小さく1つから。1週間続けたら、AIがあなたのログの変化を見て次のフィードバックをします。</p></div>'+
       '<p class="dnote">※ サンプル。実データはエンライフのログシステムから連携。トップ営業のログは学習用に匿名化・本人同意のうえ利用します。個人成績は本人・上長のみ閲覧。AIの解説・アドバイスは参考情報です。</p>'},
+    training:{eyebrow:'TRAINING ／ 研修',title:'研修の受講管理',html:
+      '<h1 class="dh">研修の受講管理</h1><p class="dlead">研修資料をイントラにアップ → 期限つきで受講依頼 → 未受講はリマインド、期限超過は管理者へ自動連携（サンプル）。</p>'+
+      '<h3 '+H3+'>あなたの研修</h3>'+
+      '<div class="dl-list">'+
+      '<div class="dl-row" style="border:1px solid var(--red);background:color-mix(in srgb,var(--red) 6%,var(--card))"><span class="di" style="background:var(--red)">⚠</span><div><div class="dn">7月度 コンプライアンス研修 <span style="background:var(--red);color:#fff;font-size:.66rem;font-weight:800;border-radius:999px;padding:2px 9px;margin-left:6px">期限超過 2日</span></div><div class="dm" style="color:var(--red);font-weight:700">期限 7/31（超過）／ コンプラ室 ／ 管理者へ通知済み</div></div><button class="dbtn" style="background:var(--red)">今すぐ受講</button></div>'+
+      '<div class="dl-row"><span class="di" style="background:var(--orange)">!</span><div><div class="dn">個人情報保護 基礎</div><div class="dm">期限 8/8 ／ 全社</div></div><button class="dbtn">受講する</button></div>'+
+      '<div class="dl-row"><span class="di" style="background:var(--blue)">▶</span><div><div class="dn">募集人 継続教育（30分）</div><div class="dm">受講中 60% ／ 期限 8/20</div></div><button class="dbtn">続きから</button></div>'+
+      '<div class="dl-row"><span class="di" style="background:var(--green)">✓</span><div><div class="dn">新商品説明会</div><div class="dm">完了 ／ 7/22 受講</div></div></div>'+
+      '</div>'+
+      '<h3 '+H3+'>全社の受講状況（管理者ビュー）</h3>'+
+      '<table class="rank-tbl"><tr><th>研修</th><th>対象</th><th>受講率</th><th>未受講</th></tr>'+
+      '<tr><td>7月度 コンプライアンス研修</td><td>全社 52名</td><td>87%</td><td class="gap-neg">7名</td></tr>'+
+      '<tr><td>個人情報保護 基礎</td><td>新人 8名</td><td>50%</td><td class="gap-neg">4名</td></tr>'+
+      '<tr><td>募集人 継続教育</td><td>募集人 40名</td><td>72%</td><td class="gap-neg">11名</td></tr></table>'+
+      '<p class="dnote">※ サンプル。運用イメージ：資料アップ→期限つき受講依頼→未受講は三段リマインド→期限超過は上長・管理者へ自動連携。実装は SharePoint＋Power Automate。数値は仮。</p>'},
+    selfcheck:{eyebrow:'SELF-CHECK ／ 自己点検',title:'今月の自己点検',html:
+      '<h1 class="dh">今月の自己点検</h1><p class="dlead">各項目に「はい／いいえ」で回答して提出。<b>この画面（イントラ内）で完結</b>します（サンプル）。期限 8/31。</p>'+
+      '<div class="chk">'+
+      chkQ_('募集時に、重要事項（契約概要・注意喚起情報）を説明しましたか')+
+      chkQ_('お客様の個人情報を、権限のある範囲で適切に取り扱っていますか')+
+      chkQ_('比較・誇大・誤解を招く表現を使っていませんか')+
+      chkQ_('「お客様の声」を社外に出す際、本人の同意を得ていますか')+
+      chkQ_('募集資料は最新版（差し替え反映済み）を使っていますか')+
+      chkQ_('パスワード・端末を適切に管理していますか（共有・放置なし）')+
+      chkQ_('苦情・ヒヤリハットがあった場合、速やかに報告しましたか')+
+      chkQ_('お客様本位（ニーズに合った提案）を意識して対応しましたか')+
+      '</div>'+
+      '<div class="chk-note"><textarea placeholder="気になる点・共有したいこと（任意）"></textarea></div>'+
+      '<div class="chk-submit"><button onclick="chkSubmit()">提出する</button><span class="chk-count" id="chkCount">回答 0 / 8</span><span class="chk-done" id="chkDone">✓ 提出しました。ありがとうございました。</span></div>'+
+      '<p class="dnote">※ サンプル。回答はイントラ内で自動集計、未提出者にはリマインド。実装は Microsoft Forms／SharePoint＋Power Automate。</p>'},
     generic:{eyebrow:'PREVIEW',title:'準備中',html:'<h1 class="dh">準備中</h1><p class="dlead">この画面はサンプルです。実装時にここに一覧・詳細を表示します。</p>'}
   };
   function openDetail(key){
