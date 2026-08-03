@@ -355,6 +355,17 @@
   .chk-submit button{border:0;background:var(--blue);color:#fff;font-weight:800;font-size:.92rem;border-radius:999px;padding:12px 26px;cursor:pointer}
   .chk-count{font-size:.8rem;color:var(--sub);font-weight:800}
   .chk-done{color:#2f9e5f;font-weight:900;display:none}
+  /* 申請フォーム・研修 詳細 */
+  .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media (max-width:640px){.form-grid{grid-template-columns:1fr}}
+  .fld{display:flex;flex-direction:column;gap:5px}
+  .fld label{font-size:.78rem;font-weight:800;color:var(--sub)}
+  .fld input{border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-family:inherit;font-size:.92rem;background:var(--card);color:var(--ink)}
+  .docs{display:flex;flex-direction:column;gap:8px}
+  .docs .doc{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:.9rem;font-weight:700;cursor:pointer}
+  .filein{display:block;margin-top:6px;font-size:.88rem}
+  .course-meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--sub);font-size:.82rem;font-weight:700;margin:6px 0 12px}
+  .mat{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-weight:800}
 
   .note{max-width:none;margin:6px auto 0;padding:0 clamp(12px,1.8vw,30px);font-size:.72rem;color:var(--sub)}
 
@@ -758,7 +769,7 @@
 <!-- 詳細画面（ドリルダウン）コンテナ -->
 <div id="detail" class="detail-view" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="detail-top"><div class="in">
-    <button class="back-btn" onclick="closeDetail()">← ホームに戻る</button>
+    <button class="back-btn" id="backBtn" onclick="goBack()">← ホームに戻る</button>
     <div><div class="eyebrow" id="dtEyebrow"></div><div class="dt-title" id="dtTitle"></div></div>
   </div></div>
   <div class="detail-body"><div id="dtBody"></div></div>
@@ -888,8 +899,10 @@
   }
 
   /* ===== 詳細画面（ドリルダウン） ===== */
-  function dlRow(color,emoji,name,meta,btn,cat){
-    return '<div class="dl-row" data-cat="'+(cat||'')+'" style="--ac:'+color+'"><span class="di">'+emoji+'</span><div><div class="dn">'+name+'</div><div class="dm">'+meta+'</div></div><button class="dbtn">'+(btn||'ダウンロード')+'</button></div>';
+  function dlRow(color,emoji,name,meta,btn,cat,detail){
+    var da=detail?' data-detail="'+detail+'"':'';
+    var cl=detail?'dl-row clickable':'dl-row';
+    return '<div class="'+cl+'" data-cat="'+(cat||'')+'"'+da+' style="--ac:'+color+'"><span class="di">'+emoji+'</span><div><div class="dn">'+name+'</div><div class="dm">'+meta+'</div></div><button class="dbtn">'+(btn||'ダウンロード')+'</button></div>';
   }
   var H3='style="font-weight:900;font-size:1.05rem;margin:18px 0 10px"';
   // 自己点検：設問HTML生成＋回答/提出
@@ -913,20 +926,69 @@
     var btn=document.querySelector('#dtBody .chk-submit button'); if(btn){ btn.textContent='提出済'; btn.style.background='var(--green)'; btn.disabled=true; }
   }
 
+  // ===== 3階層目：申請フォーム／研修／未受講リストの汎用テンプレ =====
+  var APP_DOCS={
+    '経費精算書':['領収書（原本またはPDF）','経費の内訳がわかるもの','（該当時）稟議・承認メール'],
+    '通勤手当申請書':['通勤経路の確認書類','定期代がわかる資料'],
+    '有給休暇届':['（添付は原則不要）'],
+    '出張旅費精算書':['交通機関の領収書','宿泊の領収書','出張報告書'],
+    '慶弔見舞金申請':['対象を確認できる書類（会葬礼状 等）'],
+    '育児休業申請書':['母子手帳の写し 等','取得予定期間のメモ'],
+    '住所変更届':['新住所がわかる書類'],
+    '立替金精算書':['領収書']
+  };
+  function field_(label,type,ph){ return '<div class="fld"><label>'+label+'</label><input type="'+type+'" placeholder="'+(ph||'')+'"></div>'; }
+  function appForm_(name){
+    var docs=(APP_DOCS[name]||['必要に応じた確認書類']);
+    var docHtml=docs.map(function(d){return '<label class="doc"><input type="checkbox"> '+d+'</label>';}).join('');
+    var html=
+      '<h1 class="dh">'+name+'</h1>'+
+      '<p class="dlead">必要書類を確認し、入力して提出できます（サンプル）。担当窓口：総務部。</p>'+
+      '<h3 '+H3+'>入力</h3>'+
+      '<div class="form-grid">'+field_('氏名','text','例）小柳 健')+field_('部署','text','例）生命保険部')+field_('申請日','date','')+field_('件名・内容','text','')+field_('金額（円）','number','')+field_('希望日 / 対象日','date','')+'</div>'+
+      '<h3 '+H3+'>必要書類（チェック）</h3><div class="docs">'+docHtml+'</div>'+
+      '<h3 '+H3+'>添付ファイル</h3><input type="file" class="filein" multiple><span class="dnote"> ※サンプル。実装時はSharePoint/OneDriveへ保存</span>'+
+      '<div class="chk-submit"><button onclick="formSubmit()">申請を提出</button><span class="chk-done" id="formDone">✓ 申請を受け付けました。承認フローに回ります。</span></div>'+
+      '<p class="dnote">※ サンプル。提出内容はSharePointリストへ保存し、承認（上長→総務）＝Power Automateへ。手続きの流れ・様式PDFもここに表示予定。</p>';
+    return {eyebrow:'FORM ／ 申請', title:name, html:html};
+  }
+  function formSubmit(){ var d=document.getElementById('formDone'); if(d) d.style.display='inline'; var b=document.querySelector('#dtBody .chk-submit button'); if(b){b.textContent='提出済';b.style.background='var(--green)';b.disabled=true;} }
+  function course_(name){
+    var html=
+      '<h1 class="dh">'+name+'</h1>'+
+      '<p class="dlead">研修資料を確認し、受講→確認テストで完了になります（サンプル）。</p>'+
+      '<div class="course-meta"><span>⏱ 所要 約20分</span><span>🗓 期限 8/8</span><span>👤 対象 全社</span></div>'+
+      '<div class="mat">📄 研修資料（PDF/スライド）<button class="dbtn" style="margin-left:auto">開く</button></div>'+
+      '<div class="mat" style="margin-top:10px">▶ 研修動画<button class="dbtn" style="margin-left:auto">再生</button></div>'+
+      '<h3 '+H3+'>確認テスト</h3><div class="chk">'+chkQ_('研修内容を理解しましたか')+chkQ_('不明点は上長・担当に相談すると理解した')+chkQ_('日々の業務で実践します')+'</div>'+
+      '<div class="chk-submit"><button onclick="formSubmit()">受講を完了にする</button><span class="chk-done" id="formDone">✓ 受講を記録しました。おつかれさまでした。</span></div>'+
+      '<p class="dnote">※ サンプル。受講状況はSharePointに記録、未受講はリマインド、期限超過は管理者へ連携。</p>';
+    return {eyebrow:'COURSE ／ 研修', title:name, html:html};
+  }
+  function nonUsers_(name){
+    var rows=[['上間 菜々子','損害保険部'],['大城 健','回線事業部'],['新垣 由美','生命保険部'],['比嘉 翔','回線事業部']];
+    var html=
+      '<h1 class="dh">未受講者：'+name+'</h1>'+
+      '<p class="dlead">対象のうち未受講の方（サンプル）。リマインド送信・管理者連携ができます。</p>'+
+      '<div class="dl-list">'+rows.map(function(r){return '<div class="dl-row"><span class="di" style="background:var(--red)">!</span><div><div class="dn">'+r[0]+'</div><div class="dm">'+r[1]+'</div></div><button class="dbtn">リマインド送信</button></div>';}).join('')+'</div>'+
+      '<p class="dnote">※ サンプル。未受講者へ三段リマインド、期限超過で上長・管理者へ自動連携（Power Automate）。</p>';
+    return {eyebrow:'ADMIN ／ 未受講', title:'未受講者一覧', html:html};
+  }
+
   var DETAILS={
     applications:{eyebrow:'DOWNLOAD ／ 総務部',title:'申請書ダウンロード',html:
       '<h1 class="dh">申請書ダウンロード</h1><p class="dlead">労務・経費・休暇など、社内の全様式をここから。手続きの流れと添付書類もセットで案内します（サンプル）。</p>'+
       '<div class="dsearch"><span>🔎</span><input placeholder="申請書名で検索（例：経費精算）"></div>'+
       '<div class="chips"><span class="chip-on" data-filter="all">すべて</span><span data-filter="労務">労務</span><span data-filter="経費">経費</span><span data-filter="休暇">休暇</span><span data-filter="その他">その他</span></div>'+
       '<div class="dl-list">'+
-      dlRow('var(--blue)','📄','経費精算書','経費 ／ 最終更新 2026.06','ダウンロード','経費')+
-      dlRow('var(--turq)','📄','通勤手当申請書','労務 ／ 2026.04','ダウンロード','労務')+
-      dlRow('var(--green)','📄','有給休暇届','休暇 ／ 2026.05','ダウンロード','休暇')+
-      dlRow('var(--blue)','📄','出張旅費精算書','経費 ／ 2026.06','ダウンロード','経費')+
-      dlRow('var(--orange)','📄','慶弔見舞金申請','その他 ／ 2026.03','ダウンロード','その他')+
-      dlRow('var(--green)','📄','育児休業申請書','休暇 ／ 2026.02','ダウンロード','休暇')+
-      dlRow('var(--turq)','📄','住所変更届','労務 ／ 2026.01','ダウンロード','労務')+
-      dlRow('var(--blue)','📄','立替金精算書','経費 ／ 2026.06','ダウンロード','経費')+
+      dlRow('var(--blue)','📄','経費精算書','経費 ／ 最終更新 2026.06','開く','経費','form:経費精算書')+
+      dlRow('var(--turq)','📄','通勤手当申請書','労務 ／ 2026.04','開く','労務','form:通勤手当申請書')+
+      dlRow('var(--green)','📄','有給休暇届','休暇 ／ 2026.05','開く','休暇','form:有給休暇届')+
+      dlRow('var(--blue)','📄','出張旅費精算書','経費 ／ 2026.06','開く','経費','form:出張旅費精算書')+
+      dlRow('var(--orange)','📄','慶弔見舞金申請','その他 ／ 2026.03','開く','その他','form:慶弔見舞金申請')+
+      dlRow('var(--green)','📄','育児休業申請書','休暇 ／ 2026.02','開く','休暇','form:育児休業申請書')+
+      dlRow('var(--turq)','📄','住所変更届','労務 ／ 2026.01','開く','労務','form:住所変更届')+
+      dlRow('var(--blue)','📄','立替金精算書','経費 ／ 2026.06','開く','経費','form:立替金精算書')+
       '<div class="empty-hint" style="display:none;color:var(--sub);font-size:.85rem;padding:12px">該当する申請書はありません。</div>'+
       '</div><p class="dnote">担当窓口：総務部 ／ 様式数 48種（サンプル表示）。カテゴリを押すと絞り込めます。各行に「手続きの流れ」「添付書類」も展開予定。</p>'},
     ranking:{eyebrow:'RANKING ／ 社内限定',title:'今月のランキング（詳細）',html:
@@ -1136,16 +1198,16 @@
       '<h1 class="dh">研修の受講管理</h1><p class="dlead">研修資料をイントラにアップ → 期限つきで受講依頼 → 未受講はリマインド、期限超過は管理者へ自動連携（サンプル）。</p>'+
       '<h3 '+H3+'>あなたの研修</h3>'+
       '<div class="dl-list">'+
-      '<div class="dl-row" style="border:1px solid var(--red);background:color-mix(in srgb,var(--red) 6%,var(--card))"><span class="di" style="background:var(--red)">⚠</span><div><div class="dn">7月度 コンプライアンス研修 <span style="background:var(--red);color:#fff;font-size:.66rem;font-weight:800;border-radius:999px;padding:2px 9px;margin-left:6px">期限超過 2日</span></div><div class="dm" style="color:var(--red);font-weight:700">期限 7/31（超過）／ コンプラ室 ／ 管理者へ通知済み</div></div><button class="dbtn" style="background:var(--red)">今すぐ受講</button></div>'+
-      '<div class="dl-row"><span class="di" style="background:var(--orange)">!</span><div><div class="dn">個人情報保護 基礎</div><div class="dm">期限 8/8 ／ 全社</div></div><button class="dbtn">受講する</button></div>'+
-      '<div class="dl-row"><span class="di" style="background:var(--blue)">▶</span><div><div class="dn">募集人 継続教育（30分）</div><div class="dm">受講中 60% ／ 期限 8/20</div></div><button class="dbtn">続きから</button></div>'+
-      '<div class="dl-row"><span class="di" style="background:var(--green)">✓</span><div><div class="dn">新商品説明会</div><div class="dm">完了 ／ 7/22 受講</div></div></div>'+
+      '<div class="dl-row clickable" data-detail="course:7月度 コンプライアンス研修" style="border:1px solid var(--red);background:color-mix(in srgb,var(--red) 6%,var(--card))"><span class="di" style="background:var(--red)">⚠</span><div><div class="dn">7月度 コンプライアンス研修 <span style="background:var(--red);color:#fff;font-size:.66rem;font-weight:800;border-radius:999px;padding:2px 9px;margin-left:6px">期限超過 2日</span></div><div class="dm" style="color:var(--red);font-weight:700">期限 7/31（超過）／ コンプラ室 ／ 管理者へ通知済み</div></div><button class="dbtn" style="background:var(--red)">今すぐ受講</button></div>'+
+      '<div class="dl-row clickable" data-detail="course:個人情報保護 基礎"><span class="di" style="background:var(--orange)">!</span><div><div class="dn">個人情報保護 基礎</div><div class="dm">期限 8/8 ／ 全社</div></div><button class="dbtn">受講する</button></div>'+
+      '<div class="dl-row clickable" data-detail="course:募集人 継続教育"><span class="di" style="background:var(--blue)">▶</span><div><div class="dn">募集人 継続教育（30分）</div><div class="dm">受講中 60% ／ 期限 8/20</div></div><button class="dbtn">続きから</button></div>'+
+      '<div class="dl-row clickable" data-detail="course:新商品説明会"><span class="di" style="background:var(--green)">✓</span><div><div class="dn">新商品説明会</div><div class="dm">完了 ／ 7/22 受講</div></div><button class="dbtn">見直す</button></div>'+
       '</div>'+
-      '<h3 '+H3+'>全社の受講状況（管理者ビュー）</h3>'+
+      '<h3 '+H3+'>全社の受講状況（管理者ビュー）<span class="dnote" style="font-weight:600"> ／ 「未受講」を押すと対象者一覧</span></h3>'+
       '<table class="rank-tbl"><tr><th>研修</th><th>対象</th><th>受講率</th><th>未受講</th></tr>'+
-      '<tr><td>7月度 コンプライアンス研修</td><td>全社 52名</td><td>87%</td><td class="gap-neg">7名</td></tr>'+
-      '<tr><td>個人情報保護 基礎</td><td>新人 8名</td><td>50%</td><td class="gap-neg">4名</td></tr>'+
-      '<tr><td>募集人 継続教育</td><td>募集人 40名</td><td>72%</td><td class="gap-neg">11名</td></tr></table>'+
+      '<tr><td>7月度 コンプライアンス研修</td><td>全社 52名</td><td>87%</td><td class="gap-neg"><span class="clickable" data-detail="nonusers:7月度 コンプライアンス研修" style="text-decoration:underline">7名</span></td></tr>'+
+      '<tr><td>個人情報保護 基礎</td><td>新人 8名</td><td>50%</td><td class="gap-neg"><span class="clickable" data-detail="nonusers:個人情報保護 基礎" style="text-decoration:underline">4名</span></td></tr>'+
+      '<tr><td>募集人 継続教育</td><td>募集人 40名</td><td>72%</td><td class="gap-neg"><span class="clickable" data-detail="nonusers:募集人 継続教育" style="text-decoration:underline">11名</span></td></tr></table>'+
       '<p class="dnote">※ サンプル。運用イメージ：資料アップ→期限つき受講依頼→未受講は三段リマインド→期限超過は上長・管理者へ自動連携。実装は SharePoint＋Power Automate。数値は仮。</p>'},
     selfcheck:{eyebrow:'SELF-CHECK ／ 自己点検',title:'今月の自己点検',html:
       '<h1 class="dh">今月の自己点検</h1><p class="dlead">各項目に「はい／いいえ」で回答して提出。<b>この画面（イントラ内）で完結</b>します（サンプル）。期限 8/31。</p>'+
@@ -1164,15 +1226,26 @@
       '<p class="dnote">※ サンプル。回答はイントラ内で自動集計、未提出者にはリマインド。実装は Microsoft Forms／SharePoint＋Power Automate。</p>'},
     generic:{eyebrow:'PREVIEW',title:'準備中',html:'<h1 class="dh">準備中</h1><p class="dlead">この画面はサンプルです。実装時にここに一覧・詳細を表示します。</p>'}
   };
-  function openDetail(key){
-    var d=DETAILS[key]||DETAILS.generic;
+  var NAV=[];
+  function renderDetail_(key){
+    var d, sep=key.indexOf(':');
+    if(sep>0){ var base=key.slice(0,sep), arg=key.slice(sep+1);
+      if(base==='form') d=appForm_(arg);
+      else if(base==='course') d=course_(arg);
+      else if(base==='nonusers') d=nonUsers_(arg);
+    }
+    if(!d) d=DETAILS[key]||DETAILS.generic;
     document.getElementById('dtEyebrow').textContent=d.eyebrow;
     document.getElementById('dtTitle').textContent=d.title;
     document.getElementById('dtBody').innerHTML=d.html;
+    var bb=document.getElementById('backBtn'); if(bb) bb.textContent=(NAV.length>1?'← 戻る':'← ホームに戻る');
     var v=document.getElementById('detail'); v.classList.add('open'); v.setAttribute('aria-hidden','false'); v.scrollTop=0;
     document.body.style.overflow='hidden';
   }
+  function openDetail(key){ NAV.push(key); renderDetail_(key); }
+  function goBack(){ NAV.pop(); if(NAV.length){ renderDetail_(NAV[NAV.length-1]); } else { closeDetail(); } }
   function closeDetail(){
+    NAV=[];
     var v=document.getElementById('detail'); v.classList.remove('open'); v.setAttribute('aria-hidden','true');
     document.body.style.overflow='';
   }
