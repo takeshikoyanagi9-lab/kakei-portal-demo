@@ -367,6 +367,30 @@
   .course-meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--sub);font-size:.82rem;font-weight:700;margin:6px 0 12px}
   .mat{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-weight:800}
 
+  /* ===== お客様の声 ===== */
+  .vtag{display:inline-block;font-size:.66rem;font-weight:900;color:#fff;border-radius:5px;padding:2px 9px;flex:none;white-space:nowrap}
+  .t-thanks{background:var(--green)} .t-req{background:var(--blue)} .t-claim{background:var(--red)} .t-other{background:#8a97a3}
+  .voice-mini{display:flex;flex-direction:column;gap:10px}
+  .voice-mini .vrow{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border-radius:11px;padding:11px 13px}
+  .voice-mini .vrow p{margin:0;font-size:.92rem;line-height:1.6}
+  .voice-mini .vrow p small{display:block;color:var(--sub);font-weight:700;font-size:.72rem;margin-top:3px}
+  .voice-list{display:flex;flex-direction:column;gap:10px}
+  .voice-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;border-left:5px solid var(--vc,var(--green))}
+  .voice-card .vh{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap}
+  .voice-card .vh .vdate{margin-left:auto;font-size:.72rem;color:var(--sub);font-weight:700}
+  .voice-card .vstat{font-size:.66rem;font-weight:800;border-radius:999px;padding:2px 9px}
+  .vstat.done{background:rgba(75,181,115,.16);color:#2f9e5f} .vstat.doing{background:rgba(246,182,12,.18);color:#c98a00}
+  .voice-card .vbody{font-size:.94rem;line-height:1.75}
+  .voice-card .vby{font-size:.74rem;color:var(--sub);font-weight:700;margin-top:6px}
+  .vform{background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+  .vform .vopts{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .vform .vopts button{border:1px solid var(--line);background:var(--card);color:var(--sub);font-weight:800;font-size:.82rem;border-radius:999px;padding:7px 15px;cursor:pointer}
+  .vform .vopts button.on{color:#fff;border-color:transparent}
+  .vform textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:.92rem;min-height:64px;background:var(--card);color:var(--ink)}
+  .vform .vrowin{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;align-items:center}
+  .vform .vrowin input{border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.9rem;background:var(--card);color:var(--ink)}
+  .vform .vsub{border:0;background:var(--green);color:#fff;font-weight:800;border-radius:999px;padding:11px 22px;cursor:pointer}
+
   .note{max-width:none;margin:6px auto 0;padding:0 clamp(12px,1.8vw,30px);font-size:.72rem;color:var(--sub)}
 
   /* ===== WIDE-SCALE：広い画面で固定px要素も拡大（末尾＝カスケード最優先） ===== */
@@ -734,11 +758,15 @@
       <div class="donut-wrap"><div class="donut"><div class="in tnum">72%</div></div><div class="kv">今月目標<br><b>達成率72%</b>／あと<b>4件</b></div></div>
     </div>
 
-    <!-- ありがとう -->
-    <div class="card col-8" style="--ac:var(--green)"><span class="corner"></span>
+    <!-- お客様の声 -->
+    <div class="card col-8 clickable" style="--ac:var(--green)" data-detail="voices"><span class="corner"></span>
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-        <div><h2>ありがとうの声</h2><div class="sub">お客様から</div></div><span class="badge">NEW</span></div>
-      <p class="quote">「話すたびに、家計の不安が軽くなりました。」<span class="by">— 那覇市 T様（サンプル）</span></p>
+        <div><h2>お客様の声</h2><div class="sub">感謝・ご要望・クレームまで、すべて</div></div><span class="badge">NEW</span></div>
+      <div class="voice-mini">
+        <div class="vrow"><span class="vtag t-thanks">感謝</span><p>「話すたびに、家計の不安が軽くなりました。」<small>— 那覇市 T様（サンプル）</small></p></div>
+        <div class="vrow"><span class="vtag t-req">ご要望</span><p>「オンライン相談の時間帯を増やしてほしい。」<small>— 浦添市 M様（サンプル）</small></p></div>
+      </div>
+      <span class="go-hint">→</span>
     </div>
 
     <!-- ▼ ポジティブニュース（スポニチ風・号外・全幅・最下段） -->
@@ -973,6 +1001,30 @@
       '<div class="dl-list">'+rows.map(function(r){return '<div class="dl-row"><span class="di" style="background:var(--red)">!</span><div><div class="dn">'+r[0]+'</div><div class="dm">'+r[1]+'</div></div><button class="dbtn">リマインド送信</button></div>';}).join('')+'</div>'+
       '<p class="dnote">※ サンプル。未受講者へ三段リマインド、期限超過で上長・管理者へ自動連携（Power Automate）。</p>';
     return {eyebrow:'ADMIN ／ 未受講', title:'未受講者一覧', html:html};
+  }
+
+  // ===== お客様の声：カード生成＋登録 =====
+  function voiceMeta_(cat){ var m={'感謝':['t-thanks','var(--green)'],'ご要望':['t-req','var(--blue)'],'クレーム':['t-claim','var(--red)'],'その他':['t-other','#8a97a3']}; return m[cat]||m['その他']; }
+  function voiceCard_(cat,body,by,date,status){
+    var m=voiceMeta_(cat);
+    var st=status?('<span class="vstat '+(status==='対応済'?'done':'doing')+'">'+status+'</span>'):'';
+    return '<div class="voice-card" data-cat="'+cat+'" style="--vc:'+m[1]+'"><div class="vh"><span class="vtag '+m[0]+'">'+cat+'</span>'+st+'<span class="vdate">'+(date||'')+'</span></div><div class="vbody">'+body+'</div><div class="vby">'+(by||'')+'</div></div>';
+  }
+  function voiceCat(btn){
+    var box=btn.closest('.vform');
+    box.querySelectorAll('.vopts button').forEach(function(b){b.classList.remove('on');b.style.background='';b.style.color='';});
+    btn.classList.add('on'); btn.style.background=btn.dataset.color; btn.style.color='#fff'; box.dataset.cat=btn.textContent.trim();
+  }
+  function voiceAdd(){
+    var box=document.querySelector('#dtBody .vform');
+    var cat=box.dataset.cat||'感謝';
+    var body=box.querySelector('textarea').value.trim();
+    var by=box.querySelector('input').value.trim();
+    if(!body){ alert('内容を入力してください。'); return; }
+    var status=(cat==='クレーム')?'対応中':'';
+    var card=voiceCard_(cat,'「'+body+'」',(by?('— '+by):'— （匿名）'),'今日',status);
+    document.getElementById('voiceList').insertAdjacentHTML('afterbegin',card);
+    box.querySelector('textarea').value=''; box.querySelector('input').value='';
   }
 
   var DETAILS={
@@ -1224,6 +1276,31 @@
       '<div class="chk-note"><textarea placeholder="気になる点・共有したいこと（任意）"></textarea></div>'+
       '<div class="chk-submit"><button onclick="chkSubmit()">提出する</button><span class="chk-count" id="chkCount">回答 0 / 8</span><span class="chk-done" id="chkDone">✓ 提出しました。ありがとうございました。</span></div>'+
       '<p class="dnote">※ サンプル。回答はイントラ内で自動集計、未提出者にはリマインド。実装は Microsoft Forms／SharePoint＋Power Automate。</p>'},
+    voices:{eyebrow:'VOICE ／ お客様の声',title:'お客様の声',html:
+      '<h1 class="dh">お客様の声</h1><p class="dlead">感謝・ご要望・クレームまで、<b>すべてのお客様の声</b>を記録・共有します（サンプル）。社内限定。対外掲載は本人同意＋コンプラ審査が前提。</p>'+
+      '<h3 '+H3+'>声を登録する</h3>'+
+      '<div class="vform" data-cat="感謝">'+
+        '<div class="vopts">'+
+          '<button class="on" data-color="var(--green)" style="background:var(--green);color:#fff;border-color:transparent" onclick="voiceCat(this)">感謝</button>'+
+          '<button data-color="var(--blue)" onclick="voiceCat(this)">ご要望</button>'+
+          '<button data-color="var(--red)" onclick="voiceCat(this)">クレーム</button>'+
+          '<button data-color="#8a97a3" onclick="voiceCat(this)">その他</button>'+
+        '</div>'+
+        '<textarea placeholder="お客様の声を入力（例：説明が分かりやすかった／連絡が遅れた 等）"></textarea>'+
+        '<div class="vrowin"><input placeholder="地域・イニシャル（例：那覇市 T様／任意）"><button class="vsub" onclick="voiceAdd()">登録する</button></div>'+
+      '</div>'+
+      '<div class="chips"><span class="chip-on" data-filter="all">すべて</span><span data-filter="感謝">感謝</span><span data-filter="ご要望">ご要望</span><span data-filter="クレーム">クレーム</span><span data-filter="その他">その他</span></div>'+
+      '<div class="voice-list" id="voiceList">'+
+      voiceCard_('感謝','「話すたびに、家計の不安が軽くなりました。」','— 那覇市 T様','7/28')+
+      voiceCard_('感謝','「子どもの教育費の見通しが立ちました。ありがとうございました。」','— 宜野湾市 K様','7/26')+
+      voiceCard_('ご要望','「オンライン相談の時間帯を、もう少し増やしてほしいです。」','— 浦添市 M様','7/25')+
+      voiceCard_('ご要望','「資料をもう少し分かりやすくしてもらえると助かります。」','— 南風原町 S様','7/24')+
+      voiceCard_('クレーム','「連絡が予定より遅れました。次回は改善してほしいです。」','— 那覇市 Y様','7/23','対応中')+
+      voiceCard_('クレーム','「説明が少し急ぎ足に感じました。」','— 沖縄市 A様','7/20','対応済')+
+      voiceCard_('その他','「担当の方を継続してほしいです。」','— うるま市 I様','7/19')+
+      '<div class="empty-hint" style="display:none;color:var(--sub);font-size:.85rem;padding:12px">該当する声はありません。</div>'+
+      '</div>'+
+      '<p class="dnote">※ サンプル。<b>クレーム・苦情は苦情対応フローへ連携</b>（担当・期限・対応状況を管理）。個人が特定され得る内容は匿名化。対外（SNS/HP）掲載は本人同意＋コンプラ審査後。実装は SharePointリスト＋Power Automate。</p>'},
     generic:{eyebrow:'PREVIEW',title:'準備中',html:'<h1 class="dh">準備中</h1><p class="dlead">この画面はサンプルです。実装時にここに一覧・詳細を表示します。</p>'}
   };
   var NAV=[];
