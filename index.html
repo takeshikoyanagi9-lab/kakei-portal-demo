@@ -416,6 +416,30 @@
   .audit .al .at{color:var(--ink);font-weight:700;white-space:nowrap}
   .exec-actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
   .exec-actions button{border:0;color:#fff;font-weight:800;font-size:.86rem;border-radius:999px;padding:11px 20px;cursor:pointer}
+  .pri{font-size:.64rem;font-weight:900;border-radius:5px;padding:2px 8px;color:#fff;white-space:nowrap}
+  .pri-hi{background:#e5544b} .pri-mid{background:#f2743a} .pri-lo{background:#8a97a3}
+  .prisel{display:inline-flex;gap:5px;margin-left:8px}
+  .prisel button{border:1px solid var(--line);background:var(--card);color:var(--sub);font-weight:800;font-size:.7rem;border-radius:999px;padding:3px 10px;cursor:pointer}
+  .exec-ctrl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .exec-ctrl input{flex:1;min-width:200px;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-family:inherit;font-size:.9rem;background:var(--card);color:var(--ink)}
+  .sortbtn{border:1px solid var(--line);background:var(--card);color:var(--sub);font-weight:800;font-size:.8rem;border-radius:999px;padding:8px 15px;cursor:pointer}
+  .sortbtn.on{background:#7a6ff0;color:#fff;border-color:#7a6ff0}
+  .agent-sum{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+  .agent-sum .ag{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.82rem;font-weight:800;cursor:pointer}
+  .agent-sum .ag b{color:#d1483f;margin-left:5px}
+  .thread{display:flex;flex-direction:column;gap:10px}
+  .cmt{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 14px}
+  .cmt.mgmt{border-left:4px solid var(--blue)} .cmt.exec{border-left:4px solid #7a6ff0}
+  .cmt .ch{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .cmt .role{font-size:.66rem;font-weight:900;color:#fff;border-radius:5px;padding:2px 8px}
+  .cmt .role.r-exec{background:#7a6ff0} .cmt .role.r-mgmt{background:var(--blue)}
+  .cmt .cwho{font-weight:800;font-size:.82rem} .cmt .ctime{margin-left:auto;font-size:.72rem;color:var(--sub);font-weight:700}
+  .cmt .cbody{font-size:.9rem;line-height:1.65}
+  .cmt-form{margin-top:12px;background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
+  .cmt-form textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.9rem;min-height:54px;background:var(--card);color:var(--ink)}
+  .cmt-form .cf{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+  .cmt-form .roleopt{border:1px solid var(--line);background:var(--card);color:var(--sub);font-weight:800;font-size:.78rem;border-radius:999px;padding:6px 13px;cursor:pointer}
+  .cmt-form .cpost{margin-left:auto;border:0;background:#7a6ff0;color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;cursor:pointer}
 
   .note{max-width:none;margin:6px auto 0;padding:0 clamp(12px,1.8vw,30px);font-size:.72rem;color:var(--sub)}
 
@@ -1070,14 +1094,56 @@
 
   // ===== 経営陣報告：案件データ＋PDCA操作 =====
   var EXEC_CASES=[
-    {cat:'苦情',title:'連絡遅延に関するお申出',reporter:'上間 菜々子',date:'8/1',status:'確認待ち'},
-    {cat:'内部監査',title:'募集資料の版管理に関する指摘',reporter:'コンプラ室',date:'7/29',status:'改善指示'},
-    {cat:'モニタリング',title:'通話モニタリング 7月分 結果',reporter:'コンプラ室',date:'7/28',status:'対応中'},
-    {cat:'個人情報・情報セキュリティ',title:'メール誤送信（宛先1件）',reporter:'総務',date:'7/25',status:'完了'},
-    {cat:'不適切事案',title:'比較表現に関する社内指摘',reporter:'上長',date:'7/22',status:'確認待ち'},
-    {cat:'コンプライアンス状況',title:'7月度 コンプラ自己点検 集計',reporter:'コンプラ室',date:'7/31',status:'報告'}
+    {cat:'苦情',title:'連絡遅延に関するお申出',reporter:'上間 菜々子',date:'8/1',status:'確認待ち',pri:'重要',agent:'仲村 千晶'},
+    {cat:'苦情',title:'商品説明への不満',reporter:'上間 菜々子',date:'7/30',status:'対応中',pri:'重要',agent:'仲村 千晶'},
+    {cat:'苦情',title:'対応態度へのご指摘',reporter:'上長',date:'7/27',status:'確認待ち',pri:'通常',agent:'グレイ 舞子'},
+    {cat:'苦情',title:'手続きの遅れ',reporter:'総務',date:'7/24',status:'完了',pri:'通常',agent:'仲村 千晶'},
+    {cat:'内部監査',title:'募集資料の版管理に関する指摘',reporter:'コンプラ室',date:'7/29',status:'改善指示',pri:'重大',agent:'-'},
+    {cat:'モニタリング',title:'通話モニタリング 7月分 結果',reporter:'コンプラ室',date:'7/28',status:'対応中',pri:'通常',agent:'-'},
+    {cat:'個人情報・情報セキュリティ',title:'メール誤送信（宛先1件）',reporter:'総務',date:'7/25',status:'完了',pri:'重大',agent:'-'},
+    {cat:'不適切事案',title:'比較表現に関する社内指摘',reporter:'上長',date:'7/22',status:'確認待ち',pri:'重要',agent:'長嶋 真衣子'},
+    {cat:'コンプライアンス状況',title:'7月度 コンプラ自己点検 集計',reporter:'コンプラ室',date:'7/31',status:'報告',pri:'通常',agent:'-'}
   ];
   function statCls_(s){ return {'報告':'st-report','確認待ち':'st-check','改善指示':'st-instruct','対応中':'st-doing','完了':'st-done'}[s]||'st-report'; }
+  function priCls_(p){ return {'重大':'pri-hi','重要':'pri-mid','通常':'pri-lo'}[p]||'pri-lo'; }
+  function priRank_(p){ var r={'重大':0,'重要':1,'通常':2}; return (r[p]!=null)?r[p]:9; }
+  function dnum_(d){ var m=String(d).split('/'); return (parseInt(m[0],10)||0)*100+(parseInt(m[1],10)||0); }
+  function agentSummary_(){
+    var counts={}; EXEC_CASES.forEach(function(c){ if(c.cat==='苦情'&&c.agent&&c.agent!=='-') counts[c.agent]=(counts[c.agent]||0)+1; });
+    var keys=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a];});
+    if(!keys.length) return '<span class="ag">該当なし</span>';
+    return keys.map(function(k){return '<span class="ag" onclick="execFilterAgent(\''+k+'\')">'+k+' <b>'+counts[k]+'件</b></span>';}).join('');
+  }
+  function execSearch(){
+    var q=(document.getElementById('execSearch').value||'').trim();
+    var rows=document.querySelectorAll('#execList .dl-row');
+    rows.forEach(function(r){ r.style.display = (!q || r.textContent.indexOf(q)>=0) ? '' : 'none'; });
+  }
+  function execFilterAgent(name){ var s=document.getElementById('execSearch'); if(s){ s.value=name; execSearch(); } }
+  function execSort(mode,btn){
+    document.querySelectorAll('.exec-ctrl .sortbtn').forEach(function(b){b.classList.remove('on');}); if(btn) btn.classList.add('on');
+    var list=document.getElementById('execList'); if(!list) return;
+    var rows=Array.prototype.slice.call(list.querySelectorAll('.dl-row'));
+    rows.sort(function(a,b){
+      if(mode==='new') return Number(b.dataset.date)-Number(a.dataset.date);
+      var p=Number(a.dataset.pri)-Number(b.dataset.pri); return p!==0?p:Number(b.dataset.date)-Number(a.dataset.date);
+    });
+    rows.forEach(function(r){list.appendChild(r);});
+  }
+  // コメント履歴（経営 ⇄ 管理）
+  function cmt_(role,who,body,time){
+    var cls=(role==='経営')?'exec':'mgmt'; var rc=(role==='経営')?'r-exec':'r-mgmt';
+    return '<div class="cmt '+cls+'"><div class="ch"><span class="role '+rc+'">'+role+'</span><span class="cwho">'+who+'</span><span class="ctime">'+time+'</span></div><div class="cbody">'+body+'</div></div>';
+  }
+  function cmtRole(btn){ var f=btn.closest('.cmt-form'); f.querySelectorAll('.roleopt').forEach(function(b){b.classList.remove('on');b.style.background='';b.style.color='';b.style.borderColor='';}); btn.classList.add('on'); var exec=btn.dataset.r==='経営'; btn.style.background=exec?'#7a6ff0':'var(--blue)'; btn.style.color='#fff'; btn.style.borderColor='transparent'; f.dataset.role=btn.dataset.r; }
+  function cmtPost(){
+    var f=document.querySelector('#dtBody .cmt-form'); var role=f.dataset.role||'管理';
+    var t=f.querySelector('textarea'); var v=t.value.trim(); if(!v){alert('コメントを入力してください。');return;}
+    var who=(role==='経営')?'小柳（経営）':'小柳（管理）';
+    document.getElementById('cmtList').insertAdjacentHTML('beforeend', cmt_(role,who,v,nowStr_()));
+    t.value=''; execLog_('コメント投稿（'+role+'）',who);
+  }
+  function execSetPri(btn,p){ var el=document.getElementById('execPri'); if(el){ el.textContent=p; el.className='pri '+priCls_(p); } execLog_('重要度を「'+p+'」に設定','小柳（管理）'); }
   function nowStr_(){ var d=new Date(); function p(n){return (n<10?'0':'')+n;} return (d.getMonth()+1)+'/'+d.getDate()+' '+p(d.getHours())+':'+p(d.getMinutes()); }
   function execLog_(action,who){ var el=document.getElementById('execAudit'); if(el) el.insertAdjacentHTML('afterbegin','<div class="al"><span class="at">'+nowStr_()+'</span><span>'+action+' ／ '+who+'</span></div>'); }
   function execApprove(btn){ if(document.querySelector('#dtBody .timeline .step2.done')) return; var who='小柳 健（経営）'; var b=document.getElementById('execApproveBox'); if(b) b.innerHTML='<div class="tc"><b>承認：'+who+'</b></div><div class="tm">承認日時 '+nowStr_()+'</div>'; var s=document.getElementById('execStatus'); if(s){s.textContent='確認済';s.className='st-pill st-instruct';} var st=document.querySelector('#dtBody .timeline .step2'); if(st)st.classList.add('done'); execLog_('承認（経営確認）',who); if(btn){btn.disabled=true;btn.style.opacity='.55';btn.style.cursor='default';btn.textContent='確認済';} }
@@ -1087,7 +1153,7 @@
     var c=EXEC_CASES[i]||EXEC_CASES[0];
     var html=
       '<h1 class="dh">'+c.title+'</h1>'+
-      '<p class="dlead">カテゴリ：<b>'+c.cat+'</b> ／ 報告者：'+c.reporter+' ／ 報告日：'+c.date+' ／ 状態：<span class="st-pill '+statCls_(c.status)+'" id="execStatus">'+c.status+'</span></p>'+
+      '<p class="dlead">カテゴリ：<b>'+c.cat+'</b>'+((c.agent&&c.agent!=='-')?' ／ 募集人：<b>'+c.agent+'</b>':'')+' ／ 報告者：'+c.reporter+' ／ 報告日：'+c.date+'<br>重要度：<span class="pri '+priCls_(c.pri)+'" id="execPri">'+c.pri+'</span><span class="prisel"><button onclick="execSetPri(this,\'重大\')">重大</button><button onclick="execSetPri(this,\'重要\')">重要</button><button onclick="execSetPri(this,\'通常\')">通常</button></span> ／ 状態：<span class="st-pill '+statCls_(c.status)+'" id="execStatus">'+c.status+'</span></p>'+
       '<div class="timeline">'+
         '<div class="tl step1 done"><div class="th">① 報告</div><div class="tm">'+c.reporter+' ／ 報告日時 '+c.date+' 09:12</div><div class="tc">'+c.title+'について、事実確認のうえ経営陣の確認・改善指示を仰ぎます。（報告内容サンプル）</div></div>'+
         '<div class="tl step2"><div class="th">② 経営陣による確認（承認）</div><div id="execApproveBox"><div class="tm">未確認 —「確認する（承認）」で承認者・承認日時を記録</div></div></div>'+
@@ -1096,6 +1162,12 @@
       '</div>'+
       '<div class="exec-actions"><button style="background:#7a6ff0" onclick="execApprove(this)">確認する（承認）</button><button style="background:var(--green)" onclick="execComplete(this)">完了にする</button></div>'+
       '<h3 '+H3+'>改善指示の入力</h3><textarea id="execInstr" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:.92rem;min-height:62px;background:var(--card);color:var(--ink)" placeholder="経営陣からの改善指示を入力"></textarea><div style="margin-top:8px"><button class="dbtn" onclick="execInstruct()">指示を記録</button></div>'+
+      '<h3 '+H3+'>コメント履歴（経営 ⇄ 管理）</h3>'+
+      '<div class="thread" id="cmtList">'+
+        cmt_('管理','小柳（管理）','事実確認を行いました。経営のご判断をお願いします。','8/1 11:20')+
+        cmt_('経営','小柳（経営）','再発防止として、連絡ルールの周知徹底を指示します。','8/1 13:05')+
+      '</div>'+
+      '<div class="cmt-form" data-role="管理"><textarea placeholder="コメントを入力（経営・管理のやり取り）"></textarea><div class="cf"><button class="roleopt on" data-r="管理" style="background:var(--blue);color:#fff;border-color:transparent" onclick="cmtRole(this)">管理として</button><button class="roleopt" data-r="経営" onclick="cmtRole(this)">経営として</button><button class="cpost" onclick="cmtPost()">投稿</button></div></div>'+
       '<h3 '+H3+'>操作ログ・履歴</h3><div class="audit" id="execAudit">'+
         '<div class="al"><span class="at">'+c.date+' 10:03</span><span>閲覧 ／ 上長</span></div>'+
         '<div class="al"><span class="at">'+c.date+' 09:12</span><span>報告 作成 ／ '+c.reporter+'</span></div>'+
@@ -1386,9 +1458,11 @@
         '<div class="es"><div class="n" style="color:#d1602a">1</div><div class="l">対応中</div></div>'+
         '<div class="es"><div class="n" style="color:#2f9e5f">1</div><div class="l">今月 完了</div></div>'+
       '</div>'+
+      '<h3 '+H3+'>苦情の募集人別 発生数<span class="dnote" style="font-weight:600"> ／ 名前を押すと絞り込み</span></h3><div class="agent-sum">'+agentSummary_()+'</div>'+
+      '<div class="exec-ctrl"><input id="execSearch" oninput="execSearch()" placeholder="検索（件名・募集人・カテゴリ）"><button class="sortbtn on" onclick="execSort(\'pri\',this)">重要度順</button><button class="sortbtn" onclick="execSort(\'new\',this)">新着順</button></div>'+
       '<div class="chips"><span class="chip-on" data-filter="all">すべて</span><span data-filter="苦情">苦情</span><span data-filter="不適切事案">不適切事案</span><span data-filter="内部監査">内部監査</span><span data-filter="モニタリング">モニタリング</span><span data-filter="個人情報・情報セキュリティ">個人情報・セキュリティ</span><span data-filter="コンプライアンス状況">コンプラ状況</span></div>'+
-      '<div class="dl-list">'+
-      EXEC_CASES.map(function(c,i){return '<div class="dl-row clickable" data-cat="'+c.cat+'" data-detail="case:'+i+'"><span class="di" style="background:#7a6ff0">📋</span><div><div class="dn">'+c.title+' <span class="st-pill '+statCls_(c.status)+'">'+c.status+'</span></div><div class="dm">'+c.cat+' ／ 報告 '+c.reporter+' ／ '+c.date+'</div></div><button class="dbtn">開く</button></div>';}).join('')+
+      '<div class="dl-list" id="execList">'+
+      EXEC_CASES.slice().sort(function(a,b){var p=priRank_(a.pri)-priRank_(b.pri);return p!==0?p:dnum_(b.date)-dnum_(a.date);}).map(function(c){var i=EXEC_CASES.indexOf(c);return '<div class="dl-row clickable" data-cat="'+c.cat+'" data-pri="'+priRank_(c.pri)+'" data-date="'+dnum_(c.date)+'" data-detail="case:'+i+'"><span class="di" style="background:#7a6ff0">📋</span><div><div class="dn">'+c.title+' <span class="pri '+priCls_(c.pri)+'">'+c.pri+'</span> <span class="st-pill '+statCls_(c.status)+'">'+c.status+'</span></div><div class="dm">'+c.cat+((c.agent&&c.agent!=='-')?' ／ 募集人：'+c.agent:'')+' ／ 報告 '+c.reporter+' ／ '+c.date+'</div></div><button class="dbtn">開く</button></div>';}).join('')+
       '<div class="empty-hint" style="display:none;color:var(--sub);font-size:.85rem;padding:12px">該当する案件はありません。</div>'+
       '</div>'+
       '<p class="dnote">※ サンプル。報告項目：苦情／不適切事案／内部監査／モニタリング／個人情報・情報セキュリティ／コンプライアンス状況 等。実装は SharePointリスト＋監査ログ＋バージョン履歴＋Power Automate（承認・通知）。閲覧は経営・管理者に限定。</p>'},
