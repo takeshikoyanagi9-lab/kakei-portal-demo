@@ -7,13 +7,13 @@
 <title>家計の見直しやさん Grpポータルサイト — 幾何学インフォグラフィック案</title>
 <style>
   :root{
-    --bg:#f4f7fa; --card:#ffffff; --ink:#182430; --sub:#6a7987; --line:#e6ecf1;
+    --bg:#f4f7fa; --card:#ffffff; --ink:#182430; --sub:#54636f; --line:#e6ecf1;
     --blue:#0fa0da; --turq:#16b6b0; --sun:#f6b60c; --green:#4bb573; --orange:#f2743a; --red:#e5544b; --violet:#7a6ff0;
     --shadow:0 8px 26px rgba(24,36,48,.09); --radius:18px;
   }
   @media (prefers-color-scheme:dark){:root{--bg:#0b1218;--card:#131d26;--ink:#e9f0f6;--sub:#93a3b0;--line:#213039;--shadow:0 10px 30px rgba(0,0,0,.45)}}
   :root[data-theme="dark"]{--bg:#0b1218;--card:#131d26;--ink:#e9f0f6;--sub:#93a3b0;--line:#213039;--shadow:0 10px 30px rgba(0,0,0,.45)}
-  :root[data-theme="light"]{--bg:#f4f7fa;--card:#fff;--ink:#182430;--sub:#6a7987;--line:#e6ecf1;--shadow:0 8px 26px rgba(24,36,48,.09)}
+  :root[data-theme="light"]{--bg:#f4f7fa;--card:#fff;--ink:#182430;--sub:#54636f;--line:#e6ecf1;--shadow:0 8px 26px rgba(24,36,48,.09)}
 
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--ink);font-family:"Helvetica Neue","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
@@ -25,7 +25,7 @@
   /* 固定px要素の拡大はスタイル末尾（WIDE-SCALE）で定義＝カスケード順で確実に適用 */
   .wrap{max-width:none;margin:0 auto;padding:clamp(12px,1.8vw,30px)}
   .tnum{font-variant-numeric:tabular-nums}
-  .eyebrow{font-size:.72rem;letter-spacing:.3em;font-weight:800;text-transform:uppercase;color:var(--blue)}
+  .eyebrow{font-size:.8rem;letter-spacing:.28em;font-weight:800;text-transform:uppercase;color:var(--blue)}
 
   /* ===== site header (ロゴ＋サイト名) ===== */
   .site-top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--card) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -52,7 +52,7 @@
   /* 挨拶は必ず1行（一列）で表示：white-space:nowrap ＋ 収まるサイズにclamp */
   .hero h1{font-weight:900;font-size:clamp(1.6rem,5.2vw,3.6rem);letter-spacing:-.02em;line-height:1.05;margin:12px 0 8px;white-space:nowrap}
   .hero h1 .u{background:linear-gradient(transparent 62%,rgba(246,182,12,.55) 62%)}
-  .hero .date{color:var(--sub);font-size:.9rem}
+  .hero .date{color:var(--sub);font-size:1rem;font-weight:600}
   /* ===== おうちくん マスコット（ぷにぷに） ===== */
   .ouchi{display:block;transform-origin:50% 100%;animation:puni 2.6s ease-in-out infinite;will-change:transform}
   .ouchi svg{display:block;width:100%;height:auto;overflow:visible}
@@ -72,7 +72,7 @@
     100%{transform:translateY(0) scale(1,1)}
   }
   .hero .hero-mascot{position:absolute;right:clamp(10px,3.5vw,52px);top:50%;transform:translateY(-50%);width:clamp(120px,16vw,224px);z-index:5;pointer-events:none}
-  .clap .clap-ouchi{width:56px;flex:none;margin-right:4px}
+  .clap .clap-ouchi{width:78px;flex:none;margin-right:6px}
   .hero .hero-mascot .ouchi{pointer-events:auto;cursor:pointer}
   .clap .clap-ouchi{cursor:pointer}
   /* クリックでくすぐったがって笑う */
@@ -94,11 +94,11 @@
   .ouchi.giggle .face-normal,.ouchi.giggle .face-nikkori,.ouchi.giggle .face-wink,.ouchi.giggle .face-bikkuri{opacity:0}
   .ouchi.giggle .face-laugh{opacity:1}
   /* 日替わり吹き出し */
-  .ouchi-bubble{position:absolute;left:50%;bottom:calc(100% - 10px);transform:translateX(-50%);background:#fff;border:2px solid var(--sun);color:var(--ink);font-weight:800;font-size:clamp(.72rem,1vw,.92rem);line-height:1.3;padding:7px 12px;border-radius:14px;white-space:nowrap;box-shadow:0 6px 16px rgba(24,36,48,.12);z-index:3;animation:bubblein .5s ease both}
-  .ouchi-bubble::before,.ouchi-bubble::after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:0;height:0;border-style:solid}
-  .ouchi-bubble::before{bottom:-10px;border-width:10px 8px 0 8px;border-color:var(--sun) transparent transparent transparent}
-  .ouchi-bubble::after{bottom:-7px;border-width:8px 6px 0 6px;border-color:#fff transparent transparent transparent}
-  @keyframes bubblein{0%{opacity:0;transform:translateX(-50%) translateY(6px) scale(.9)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+  .ouchi-bubble{position:absolute;right:2px;bottom:calc(100% - 8px);background:#fff;border:2px solid var(--sun);color:var(--ink);font-weight:800;font-size:clamp(.72rem,1vw,.92rem);line-height:1.35;padding:7px 12px;border-radius:14px;max-width:min(240px,56vw);white-space:normal;text-align:center;box-shadow:0 6px 16px rgba(24,36,48,.12);z-index:3;transform-origin:bottom right;animation:bubblein .5s ease both}
+  .ouchi-bubble::before,.ouchi-bubble::after{content:"";position:absolute;width:0;height:0;border-style:solid}
+  .ouchi-bubble::before{right:74px;bottom:-10px;border-width:10px 8px 0 8px;border-color:var(--sun) transparent transparent transparent}
+  .ouchi-bubble::after{right:76px;bottom:-7px;border-width:8px 6px 0 6px;border-color:#fff transparent transparent transparent}
+  @keyframes bubblein{0%{opacity:0;transform:translateY(6px) scale(.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
   .laughpop{position:fixed;transform:translate(-50%,0);font-weight:900;font-size:15px;color:var(--orange);z-index:60;pointer-events:none;white-space:nowrap;text-shadow:0 1px 2px rgba(255,255,255,.9);animation:laughfloat 1.1s ease forwards}
   @keyframes laughfloat{
     0%{opacity:0;transform:translate(-50%,6px) scale(.7)}
@@ -106,12 +106,20 @@
     100%{opacity:0;transform:translate(-50%,-40px) scale(1)}
   }
   .empty-ouchi{display:flex;justify-content:center;margin:6px 0 2px}
-  .empty-ouchi .ouchi{width:150px;cursor:pointer}
+  .empty-ouchi .ouchi{width:180px;cursor:pointer}
+  .spr-ouchi{cursor:pointer;flex:none}
+  .donut-wrap{gap:12px}
+  .donut-wrap .spr-ouchi{width:74px}
+  .voice-wrap{display:flex;align-items:center;gap:16px}
+  .voice-wrap .voice-mini{flex:1;min-width:0}
+  .voice-wrap .spr-ouchi{width:110px}
+  .hd .hd-ouchi{width:56px;margin-left:auto}
+  @media (max-width:560px){.voice-wrap .spr-ouchi,.donut-wrap .spr-ouchi{display:none}}
   @media (max-width:760px){.hero .hero-mascot{display:none}}
   @media (prefers-reduced-motion:reduce){.ouchi,.ouchi.jump,.ouchi.giggle{animation:none}}
   .kpis{display:flex;gap:clamp(18px,4vw,54px);flex-wrap:wrap;margin-top:26px}
   .kpi .n{font-weight:900;font-size:clamp(1.9rem,4vw,3.2rem);line-height:1}
-  .kpi .l{font-size:.76rem;color:var(--sub);font-weight:700;margin-top:4px}
+  .kpi .l{font-size:.9rem;color:var(--sub);font-weight:700;margin-top:4px}
   .kpi:nth-child(1) .n{color:var(--blue)} .kpi:nth-child(2) .n{color:var(--orange)}
   .kpi:nth-child(3) .n{color:var(--green)} .kpi:nth-child(4) .n{color:var(--violet)}
 
@@ -133,8 +141,8 @@
   .hd{display:flex;align-items:center;gap:11px;margin-bottom:14px}
   .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:var(--ac,var(--blue))}
   .ic svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
-  .card h2{font-size:1rem;font-weight:800}.card .sub{font-size:.76rem;color:var(--sub)}
-  .badge{margin-left:auto;color:#fff;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--ac,var(--blue))}
+  .card h2{font-size:1.1rem;font-weight:800}.card .sub{font-size:.9rem;color:var(--sub);font-weight:600}
+  .badge{margin-left:auto;color:#fff;font-size:.8rem;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--ac,var(--blue))}
 
   .col-8{grid-column:span 8}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-9{grid-column:span 9}.col-3{grid-column:span 3}.col-12{grid-column:1 / -1}
 
@@ -197,7 +205,7 @@
   .zodiac .z:nth-child(1) .rk{background:linear-gradient(135deg,#f6b60c,#f2743a)}
   .zodiac .z:nth-child(2) .rk{background:linear-gradient(135deg,#9fb3c2,#6f8496)}
   .zodiac .z:nth-child(3) .rk{background:linear-gradient(135deg,#d79a5b,#b3742f)}
-  .zodiac .sign{font-weight:800;font-size:.9rem}.zodiac .word{font-size:.76rem;color:var(--sub)}
+  .zodiac .sign{font-weight:800;font-size:1.02rem}.zodiac .word{font-size:.9rem;color:var(--sub)}
   .zodiac .star{margin-left:auto;color:var(--sun);font-size:.78rem}
 
   .quote{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:1rem;line-height:1.8}
@@ -215,7 +223,7 @@
   .row .txt{font-size:.82rem;font-weight:800}
   .row .txt small{display:block;color:var(--sub);font-weight:600;font-size:.7rem}
   /* 成約速報：自動スクロールのティッカー */
-  .ticker{overflow:hidden;height:114px;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 85%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 85%,transparent)}
+  .ticker{overflow:hidden;height:210px;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 12%,#000 88%,transparent)}
   .ticker .track{display:flex;flex-direction:column;animation:roll 9s linear infinite}
   .ticker:hover .track{animation-play-state:paused}
   .ticker .row{margin-bottom:9px}
@@ -227,8 +235,8 @@
   .clap .cnt{font-weight:900;font-variant-numeric:tabular-nums;font-size:1.05rem}
   .pop{position:fixed;pointer-events:none;font-size:1.2rem;animation:pop .8s ease-out forwards;z-index:99}
   @keyframes pop{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-34px) scale(1.4)}}
-  .confetti{position:fixed;width:9px;height:9px;z-index:200;pointer-events:none;will-change:transform,opacity;animation:conf 1.15s cubic-bezier(.15,.6,.3,1) forwards}
-  @keyframes conf{0%{transform:translate(0,0) rotate(0);opacity:1}20%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 200px)) rotate(var(--rot));opacity:0}}
+  .confetti{position:fixed;width:9px;height:9px;z-index:200;pointer-events:none;will-change:transform,opacity;animation:conf 1.7s cubic-bezier(.12,.62,.28,1) forwards}
+  @keyframes conf{0%{transform:translate(0,0) rotate(0);opacity:1}12%{opacity:1}80%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 420px)) rotate(var(--rot));opacity:0}}
   @media (prefers-reduced-motion:reduce){.confetti{display:none}}
 
   .meter .big{font-weight:900;font-size:1.7rem;line-height:1;margin-bottom:8px}
@@ -323,10 +331,10 @@
   .pfgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
   @media (min-width:900px){.pfgrid.g4{grid-template-columns:repeat(4,1fr)}}
   .pf-tile{background:var(--bg);border-radius:12px;padding:11px 13px;border-left:4px solid var(--ac2,var(--blue))}
-  .pf-tile .pl{font-size:.74rem;color:var(--sub);font-weight:800}
+  .pf-tile .pl{font-size:.84rem;color:var(--sub);font-weight:800}
   .pf-tile .pn{font-weight:900;font-size:1.35rem;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:2px}
-  .pf-tile .pu{font-size:.66rem;color:var(--sub);font-weight:700}
-  .pf-tile .chg{font-size:.74rem;font-weight:900;margin-top:4px}
+  .pf-tile .pu{font-size:.78rem;color:var(--sub);font-weight:700}
+  .pf-tile .chg{font-size:.84rem;font-weight:900;margin-top:4px}
   .chg.up{color:#2f9e5f}.chg.dn{color:#d1483f}.chg.flat{color:var(--sub)}
   .pf-list{display:flex;flex-direction:column;gap:8px}
   .pf-row{display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--bg);border-radius:10px;border-left:4px solid var(--ac2,var(--blue))}
@@ -400,7 +408,7 @@
   .learn-in{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:stretch}
   @media (max-width:760px){.learn-in{grid-template-columns:1fr}}
   .learn-msg{font-size:.95rem;line-height:1.85;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .learn-ouchi{width:88px;flex:none;cursor:pointer}
+  .learn-ouchi{width:112px;flex:none;cursor:pointer}
   .learn-msg p{margin:0;flex:1;min-width:200px}
   .learn-hi{background:var(--bg);border-radius:14px;padding:16px 18px;border-left:6px solid var(--green)}
   .learn-tag{display:inline-block;font-size:.66rem;font-weight:900;color:#fff;background:var(--green);border-radius:5px;padding:2px 10px;letter-spacing:.04em}
@@ -594,7 +602,7 @@
         <div class="kpi clickable" data-detail="news"><div class="n tnum">3</div><div class="l">新着お知らせ</div></div>
       </div>
     </div>
-    <div class="hero-mascot"><div class="ouchi-bubble" id="ouchiBubble">今日も見直そ！</div><span class="ouchi" id="heroOuchi" onclick="ouchiTickle(this)" title="クリックしてみて！"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん（クリックで笑う）">
+    <div class="hero-mascot"><div class="ouchi-bubble" id="ouchiBubble">たくさんの人をたすけよう！</div><span class="ouchi" id="heroOuchi" onclick="ouchiTickle(this)" title="クリックしてみて！"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん（クリックで笑う）">
       <ellipse cx="100" cy="196" rx="50" ry="8" fill="#000" opacity=".07"/>
       <rect x="80" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><rect x="104" y="176" width="18" height="16" rx="8" fill="#e7c79c"/>
       <path d="M58 134 q-13 6 -11 23" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/>
@@ -841,7 +849,7 @@
     <!-- ① 登録者数・フォロワー数 -->
     <div class="card col-8 clickable" style="--ac:var(--green)" data-detail="sns"><span class="corner"></span>
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-        <div><h2>登録者数・フォロワー数</h2><div class="sub">目標達成状況① ／ 前日終わり時点</div></div><span class="badge">● 毎朝更新</span></div>
+        <div><h2>登録者数・フォロワー数</h2><div class="sub">目標達成状況① ／ 前日終わり時点</div></div><span class="ouchi spr-ouchi hd-ouchi"></span><span class="badge">● 毎朝更新</span></div>
       <div class="goal">
         <div class="gl">🎯 SNS総登録人数 <span class="chip up" style="margin-left:auto">今月 +128</span></div>
         <div class="gn">2,282 <small>人 ／ 目標 10,000人</small></div>
@@ -937,16 +945,19 @@
     <div class="card col-4 clickable" style="--ac:var(--violet);display:flex;flex-direction:column;align-self:stretch" data-detail="mypage"><span class="corner"></span>
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-6"/></svg></span>
         <div><h2>あなたの数字</h2><div class="sub">本人のみ</div></div></div>
-      <div class="donut-wrap"><div class="donut"><div class="in tnum">72%</div></div><div class="kv">今月目標<br><b>達成率72%</b>／あと<b>4件</b></div></div>
+      <div class="donut-wrap"><span class="ouchi spr-ouchi"></span><div class="donut"><div class="in tnum">72%</div></div><div class="kv">今月目標<br><b>達成率72%</b>／あと<b>4件</b></div></div>
     </div>
 
     <!-- お客様の声 -->
     <div class="card col-8 clickable" style="--ac:var(--green)" data-detail="voices"><span class="corner"></span>
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
         <div><h2>お客様の声</h2><div class="sub">感謝・ご要望・クレームまで、すべて</div></div><span class="badge">NEW</span></div>
-      <div class="voice-mini">
-        <div class="vrow"><span class="vtag t-thanks">感謝</span><p>「話すたびに、家計の不安が軽くなりました。」<small>— 那覇市 T様（サンプル）</small></p></div>
-        <div class="vrow"><span class="vtag t-req">ご要望</span><p>「オンライン相談の時間帯を増やしてほしい。」<small>— 浦添市 M様（サンプル）</small></p></div>
+      <div class="voice-wrap">
+        <span class="ouchi spr-ouchi"></span>
+        <div class="voice-mini">
+          <div class="vrow"><span class="vtag t-thanks">感謝</span><p>「話すたびに、家計の不安が軽くなりました。」<small>— 那覇市 T様（サンプル）</small></p></div>
+          <div class="vrow"><span class="vtag t-req">ご要望</span><p>「オンライン相談の時間帯を増やしてほしい。」<small>— 浦添市 M様（サンプル）</small></p></div>
+        </div>
       </div>
       <span class="go-hint">→</span>
     </div>
@@ -1001,23 +1012,43 @@
 </div>
 
 <script>
-  function confettiBurst(cx,cy){
+  function confettiBurst(cx,cy,count){
     if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-    var colors=['#0fa0da','#f6b60c','#4bb573','#e5544b','#7a6ff0','#f2743a','#16b6b0'];
-    for(var i=0;i<30;i++){(function(){
-      var el=document.createElement('span'); el.className='confetti';
-      var c=colors[Math.floor(Math.random()*colors.length)];
-      var shape=Math.floor(Math.random()*3);
-      if(shape===2){ el.style.width='0';el.style.height='0';el.style.background='transparent';el.style.borderLeft='5px solid transparent';el.style.borderRight='5px solid transparent';el.style.borderBottom='10px solid '+c; }
-      else { el.style.background=c; el.style.borderRadius=(shape===0?'50%':'2px'); }
-      el.style.left=cx+'px'; el.style.top=cy+'px';
-      el.style.setProperty('--dx',((Math.random()*2-1)*140).toFixed(0)+'px');
-      el.style.setProperty('--dy',(-(70+Math.random()*120)).toFixed(0)+'px');
-      el.style.setProperty('--rot',((Math.random()*720)-360).toFixed(0)+'deg');
-      el.style.animationDelay=(Math.random()*0.08).toFixed(2)+'s';
-      document.body.appendChild(el);
-      setTimeout(function(){el.remove();},1300);
-    })();}
+    var colors=['#0fa0da','#f6b60c','#4bb573','#e5544b','#7a6ff0','#f2743a','#16b6b0','#ffd23f','#ff7ab6','#ffffff'];
+    var N=count||110;
+    function spawn(n,spreadX,power,delayMax){
+      for(var i=0;i<n;i++){(function(){
+        var el=document.createElement('span'); el.className='confetti';
+        var c=colors[Math.floor(Math.random()*colors.length)];
+        var shape=Math.floor(Math.random()*4);
+        if(shape===2){ // 三角
+          var tb=(8+Math.random()*8).toFixed(0);
+          el.style.width='0';el.style.height='0';el.style.background='transparent';
+          el.style.borderLeft=(tb/2)+'px solid transparent';el.style.borderRight=(tb/2)+'px solid transparent';el.style.borderBottom=tb+'px solid '+c;
+        } else if(shape===3){ // リボン（細長）
+          el.style.width=(4+Math.random()*3).toFixed(0)+'px';
+          el.style.height=(14+Math.random()*12).toFixed(0)+'px';
+          el.style.background=c; el.style.borderRadius='2px';
+        } else { // 丸・四角
+          var s=(7+Math.random()*10).toFixed(0);
+          el.style.width=s+'px'; el.style.height=s+'px';
+          el.style.background=c; el.style.borderRadius=(shape===0?'50%':'2px');
+        }
+        el.style.left=(cx+(Math.random()*2-1)*spreadX*0.18)+'px';
+        el.style.top=cy+'px';
+        el.style.setProperty('--dx',((Math.random()*2-1)*spreadX).toFixed(0)+'px');
+        el.style.setProperty('--dy',(-(power*0.55+Math.random()*power)).toFixed(0)+'px');
+        el.style.setProperty('--rot',((Math.random()*1080)-540).toFixed(0)+'deg');
+        el.style.animationDuration=(1.4+Math.random()*0.9).toFixed(2)+'s';
+        el.style.animationDelay=(Math.random()*delayMax).toFixed(2)+'s';
+        document.body.appendChild(el);
+        setTimeout(function(){el.remove();},2600);
+      })();}
+    }
+    // 第1波：中央から大きく打ち上げ
+    spawn(Math.round(N*0.6), 300, 300, 0.06);
+    // 第2波：少し遅れて広く（盛大に降らせる）
+    setTimeout(function(){ spawn(Math.round(N*0.4), 380, 240, 0.12); }, 130);
   }
   function clap(btn){
     var n=document.getElementById('clapN');
@@ -1057,23 +1088,33 @@
     setTimeout(function(){ t.remove(); },1150);
   }
 
-  // 日替わり吹き出し＆表情（日付で決定＝毎日変わる）
+  // 吹き出し（固定メッセージ＋にっこり表情）
   (function(){
-    var msgs=[
-      {t:'今日も見直そ！',e:'exp-nikkori'},
-      {t:'ムリなく、コツコツ。',e:''},
-      {t:'いい笑顔いただきました！',e:'exp-wink'},
-      {t:'家計、身がるに。',e:'exp-nikkori'},
-      {t:'今日のアポ、応援してます！',e:''},
-      {t:'ちいさな見直し、大きな安心。',e:'exp-nikkori'},
-      {t:'わからない時は聞いてね。',e:'exp-wink'},
-      {t:'ナイス提出！',e:'exp-bikkuri'}
-    ];
-    var d=new Date();
-    var idx=(d.getFullYear()*372 + d.getMonth()*31 + d.getDate()) % msgs.length;
-    var m=msgs[idx];
-    var b=document.getElementById('ouchiBubble'); if(b) b.textContent=m.t;
-    var h=document.getElementById('heroOuchi'); if(h && m.e) h.classList.add(m.e);
+    var b=document.getElementById('ouchiBubble'); if(b) b.textContent='たくさんの人をたすけよう！';
+    var h=document.getElementById('heroOuchi'); if(h) h.classList.add('exp-nikkori');
+  })();
+
+  // おうちくんを各所に散りばめる（同一SVGを再利用・クリックで笑う）
+  var OUCHI_HTML='<svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん">'
+    +'<ellipse cx="100" cy="196" rx="50" ry="8" fill="#000" opacity=".07"/>'
+    +'<rect x="80" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><rect x="104" y="176" width="18" height="16" rx="8" fill="#e7c79c"/>'
+    +'<path d="M58 134 q-13 6 -11 23" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/>'
+    +'<path d="M144 128 q19 -6 25 -23" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/><circle cx="171" cy="102" r="8.5" fill="#e7c79c"/>'
+    +'<path d="M100 74 C156 74 162 112 162 140 C162 172 134 186 100 186 C66 186 38 172 38 140 C38 112 44 74 100 74 Z" fill="#fff7ec" stroke="#f0dcc0" stroke-width="2"/>'
+    +'<path d="M44 96 Q38 92 44 86 L94 44 Q100 39 106 44 L156 86 Q162 92 156 96 Z" fill="#e3a80f"/>'
+    +'<rect x="130" y="60" width="11" height="18" rx="4" fill="#b9860a"/>'
+    +'<circle cx="70" cy="144" r="7.5" fill="#ffb39b" opacity=".85"/><circle cx="130" cy="144" r="7.5" fill="#ffb39b" opacity=".85"/>'
+    +'<g class="face-normal"><circle cx="84" cy="126" r="9" fill="#33302e"/><circle cx="87.6" cy="122.4" r="3" fill="#fff"/><circle cx="116" cy="126" r="9" fill="#33302e"/><circle cx="119.6" cy="122.4" r="3" fill="#fff"/><path d="M87 142 Q100 156 113 142" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/></g>'
+    +'<g class="face-laugh"><path d="M76 126 q8 -9 16 0" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M108 126 q8 -9 16 0" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M86 140 Q100 160 114 140 Z" fill="#fff" stroke="#33302e" stroke-width="2.8"/></g>'
+    +'<circle cx="100" cy="166" r="12" fill="#f2743a"/><text x="100" y="171" font-size="13" font-weight="900" text-anchor="middle" fill="#fff">¥</text>'
+    +'</svg>';
+  (function(){
+    var nodes=document.querySelectorAll('.spr-ouchi');
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].innerHTML=OUCHI_HTML;
+      nodes[i].setAttribute('title','クリックしてみて！');
+      nodes[i].addEventListener('click',function(e){ e.stopPropagation(); ouchiTickle(this); });
+    }
   })();
 
   // 誕生日：お祝いボタン（🎉が舞う）
