@@ -437,7 +437,7 @@
   .cmt .cbody{font-size:.9rem;line-height:1.65}
   .cmt-form{margin-top:12px;background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
   .cmt-form textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:.9rem;min-height:54px;background:var(--card);color:var(--ink)}
-  .cmt-form .cf{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+  .cmt-form .cmtbar{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
   .cmt-form .roleopt{border:1px solid var(--line);background:var(--card);color:var(--sub);font-weight:800;font-size:.78rem;border-radius:999px;padding:6px 13px;cursor:pointer}
   .cmt-form .cpost{margin-left:auto;border:0;background:#7a6ff0;color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;cursor:pointer}
 
@@ -1144,6 +1144,19 @@
     t.value=''; execLog_('コメント投稿（'+role+'）',who);
   }
   function execSetPri(btn,p){ var el=document.getElementById('execPri'); if(el){ el.textContent=p; el.className='pri '+priCls_(p); } execLog_('重要度を「'+p+'」に設定','小柳（管理）'); }
+  // 募集人別サマリー
+  function agentsData_(){
+    var m={};
+    EXEC_CASES.forEach(function(c){ if(!c.agent||c.agent==='-') return; var a=m[c.agent]||(m[c.agent]={ag:c.agent,ku:0,fu:0,total:0}); if(c.cat==='苦情')a.ku++; else if(c.cat==='不適切事案')a.fu++; a.total++; });
+    return Object.keys(m).map(function(k){return m[k];}).sort(function(x,y){return (y.ku-x.ku)||(y.total-x.total);});
+  }
+  function agentCases_(name){
+    var cs=EXEC_CASES.filter(function(c){return c.agent===name;});
+    var html='<h1 class="dh">'+name+' の案件</h1><p class="dlead">この募集人に関する案件（サンプル）。経営・管理者のみ閲覧。</p><div class="dl-list">'+
+      cs.map(function(c){var i=EXEC_CASES.indexOf(c);return '<div class="dl-row clickable" data-detail="case:'+i+'"><span class="di" style="background:#7a6ff0">📋</span><div><div class="dn">'+c.title+' <span class="pri '+priCls_(c.pri)+'">'+c.pri+'</span> <span class="st-pill '+statCls_(c.status)+'">'+c.status+'</span></div><div class="dm">'+c.cat+' ／ '+c.date+'</div></div><button class="dbtn">開く</button></div>';}).join('')+
+      '</div><p class="dnote">※ サンプル。苦情が閾値超で管理者へアラート（Power Automate）。</p>';
+    return {eyebrow:'EXEC ／ 募集人', title:name+' の案件', html:html};
+  }
   function nowStr_(){ var d=new Date(); function p(n){return (n<10?'0':'')+n;} return (d.getMonth()+1)+'/'+d.getDate()+' '+p(d.getHours())+':'+p(d.getMinutes()); }
   function execLog_(action,who){ var el=document.getElementById('execAudit'); if(el) el.insertAdjacentHTML('afterbegin','<div class="al"><span class="at">'+nowStr_()+'</span><span>'+action+' ／ '+who+'</span></div>'); }
   function execApprove(btn){ if(document.querySelector('#dtBody .timeline .step2.done')) return; var who='小柳 健（経営）'; var b=document.getElementById('execApproveBox'); if(b) b.innerHTML='<div class="tc"><b>承認：'+who+'</b></div><div class="tm">承認日時 '+nowStr_()+'</div>'; var s=document.getElementById('execStatus'); if(s){s.textContent='確認済';s.className='st-pill st-instruct';} var st=document.querySelector('#dtBody .timeline .step2'); if(st)st.classList.add('done'); execLog_('承認（経営確認）',who); if(btn){btn.disabled=true;btn.style.opacity='.55';btn.style.cursor='default';btn.textContent='確認済';} }
@@ -1167,7 +1180,7 @@
         cmt_('管理','小柳（管理）','事実確認を行いました。経営のご判断をお願いします。','8/1 11:20')+
         cmt_('経営','小柳（経営）','再発防止として、連絡ルールの周知徹底を指示します。','8/1 13:05')+
       '</div>'+
-      '<div class="cmt-form" data-role="管理"><textarea placeholder="コメントを入力（経営・管理のやり取り）"></textarea><div class="cf"><button class="roleopt on" data-r="管理" style="background:var(--blue);color:#fff;border-color:transparent" onclick="cmtRole(this)">管理として</button><button class="roleopt" data-r="経営" onclick="cmtRole(this)">経営として</button><button class="cpost" onclick="cmtPost()">投稿</button></div></div>'+
+      '<div class="cmt-form" data-role="管理"><textarea placeholder="コメントを入力（経営・管理のやり取り）"></textarea><div class="cmtbar"><button class="roleopt on" data-r="管理" style="background:var(--blue);color:#fff;border-color:transparent" onclick="cmtRole(this)">管理として</button><button class="roleopt" data-r="経営" onclick="cmtRole(this)">経営として</button><button class="cpost" onclick="cmtPost()">投稿</button></div></div>'+
       '<h3 '+H3+'>操作ログ・履歴</h3><div class="audit" id="execAudit">'+
         '<div class="al"><span class="at">'+c.date+' 10:03</span><span>閲覧 ／ 上長</span></div>'+
         '<div class="al"><span class="at">'+c.date+' 09:12</span><span>報告 作成 ／ '+c.reporter+'</span></div>'+
@@ -1459,6 +1472,7 @@
         '<div class="es"><div class="n" style="color:#2f9e5f">1</div><div class="l">今月 完了</div></div>'+
       '</div>'+
       '<h3 '+H3+'>苦情の募集人別 発生数<span class="dnote" style="font-weight:600"> ／ 名前を押すと絞り込み</span></h3><div class="agent-sum">'+agentSummary_()+'</div>'+
+      '<div style="margin:-4px 0 14px"><button class="dbtn" style="background:#7a6ff0" data-detail="agents">募集人別サマリー（ランキング・アラート）→</button></div>'+
       '<div class="exec-ctrl"><input id="execSearch" oninput="execSearch()" placeholder="検索（件名・募集人・カテゴリ）"><button class="sortbtn on" onclick="execSort(\'pri\',this)">重要度順</button><button class="sortbtn" onclick="execSort(\'new\',this)">新着順</button></div>'+
       '<div class="chips"><span class="chip-on" data-filter="all">すべて</span><span data-filter="苦情">苦情</span><span data-filter="不適切事案">不適切事案</span><span data-filter="内部監査">内部監査</span><span data-filter="モニタリング">モニタリング</span><span data-filter="個人情報・情報セキュリティ">個人情報・セキュリティ</span><span data-filter="コンプライアンス状況">コンプラ状況</span></div>'+
       '<div class="dl-list" id="execList">'+
@@ -1466,6 +1480,12 @@
       '<div class="empty-hint" style="display:none;color:var(--sub);font-size:.85rem;padding:12px">該当する案件はありません。</div>'+
       '</div>'+
       '<p class="dnote">※ サンプル。報告項目：苦情／不適切事案／内部監査／モニタリング／個人情報・情報セキュリティ／コンプライアンス状況 等。実装は SharePointリスト＋監査ログ＋バージョン履歴＋Power Automate（承認・通知）。閲覧は経営・管理者に限定。</p>'},
+    agents:{eyebrow:'EXEC ／ 募集人別',title:'募集人別サマリー',html:
+      '<h1 class="dh">募集人別サマリー</h1><p class="dlead">募集人（営業）別に苦情・不適切事案の件数を集計・ランキング。<b>苦情が3件以上でアラート</b>（管理者へ通知）。名前を押すと該当案件へ（サンプル・経営／管理者のみ）。</p>'+
+      '<table class="rank-tbl"><tr><th>順位</th><th>募集人</th><th>苦情</th><th>不適切</th><th>合計</th><th>状態</th></tr>'+
+      agentsData_().map(function(a,i){var al=a.ku>=3?'<span class="st-pill st-doing">⚠ 要注意</span>':'<span class="st-pill st-done">良好</span>';return '<tr><td class="rk">'+(i+1)+'</td><td><span class="clickable" data-detail="agentcase:'+a.ag+'" style="text-decoration:underline">'+a.ag+'</span></td><td class="gap-neg">'+a.ku+'</td><td>'+a.fu+'</td><td><b>'+a.total+'</b></td><td>'+al+'</td></tr>';}).join('')+
+      '</table>'+
+      '<p class="dnote">※ サンプル。閾値（例：苦情3件）超過で管理者へ自動アラート（Power Automate）。月別の件数推移は実データ接続後にグラフ表示。個人成績＝経営・管理者に限定。</p>'},
     generic:{eyebrow:'PREVIEW',title:'準備中',html:'<h1 class="dh">準備中</h1><p class="dlead">この画面はサンプルです。実装時にここに一覧・詳細を表示します。</p>'}
   };
   var NAV=[];
@@ -1476,6 +1496,7 @@
       else if(base==='course') d=course_(arg);
       else if(base==='nonusers') d=nonUsers_(arg);
       else if(base==='case') d=execCase_(Number(arg));
+      else if(base==='agentcase') d=agentCases_(arg);
     }
     if(!d) d=DETAILS[key]||DETAILS.generic;
     document.getElementById('dtEyebrow').textContent=d.eyebrow;
