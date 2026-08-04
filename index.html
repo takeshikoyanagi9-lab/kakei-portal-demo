@@ -70,7 +70,7 @@
   @media (prefers-reduced-motion:reduce){.cf{animation:none}}
 
   /* ===== grid & cards ===== */
-  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(12px,1.6vw,18px)}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(12px,1.6vw,18px);align-items:start}
   .card{position:relative;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;overflow:hidden;border:1px solid var(--line)}
   .card::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:var(--ac,var(--blue))}
   .card .corner{position:absolute;right:-16px;top:-16px;width:64px;height:64px;border-radius:50%;background:var(--ac,var(--blue));opacity:.08}
@@ -94,7 +94,8 @@
   @media (max-width:560px){.grid{grid-template-columns:repeat(6,1fr)}.col-8,.col-9,.col-6,.col-4,.col-3{grid-column:span 6}}
 
   /* map */
-  .map-wrap{display:grid;grid-template-columns:1.9fr 1fr;gap:16px}
+  .map-wrap{display:grid;grid-template-columns:1.9fr 1fr;gap:16px;align-items:stretch}
+  .map-wrap .appt{height:100%;justify-content:space-between}
   @media (max-width:640px){.map-wrap{grid-template-columns:1fr}}
   .map{background:#d9eef7;border-radius:14px;position:relative;aspect-ratio:4/3;overflow:hidden}
   @media (prefers-color-scheme:dark){.map{background:#0f2a36}}
@@ -112,6 +113,15 @@
   .appt .a .tm{margin-left:auto;font-size:.76rem;font-weight:800;color:var(--blue)}
 
   .bars{display:flex;align-items:flex-end;gap:14px;height:110px;margin-top:6px}
+  .rk3{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+  .rk3 .r3{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:11px;padding:9px 11px}
+  .rk3 .r3 .rn{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-weight:900;color:#fff;flex:none;font-size:.85rem}
+  .rk3 .r3:nth-child(1) .rn{background:linear-gradient(135deg,#f6b60c,#f2743a)}
+  .rk3 .r3:nth-child(2) .rn{background:linear-gradient(135deg,#9fb3c2,#6f8496)}
+  .rk3 .r3:nth-child(3) .rn{background:linear-gradient(135deg,#d79a5b,#b3742f)}
+  .rk3 .r3 .nm{font-weight:800;font-size:.9rem;line-height:1.25}
+  .rk3 .r3 .nm small{color:var(--sub);font-weight:700;font-size:.7rem}
+  .rk3 .r3 .vl{margin-left:auto;font-weight:900;font-variant-numeric:tabular-nums}
   .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
   .bar .b{width:66%;border-radius:8px 8px 0 0}
   .bar:nth-child(1) .b{background:linear-gradient(var(--blue),var(--turq))}
@@ -119,12 +129,13 @@
   .bar:nth-child(3) .b{background:linear-gradient(var(--green),#8fd6a6)}
   .bar span{font-size:.72rem;color:var(--sub)}.bar b{font-size:.85rem}
 
-  .donut-wrap{display:flex;align-items:center;gap:16px}
+  .donut-wrap{flex:1;display:flex;align-items:center;justify-content:center;gap:16px}
   .donut{width:92px;height:92px;border-radius:50%;flex:none;background:conic-gradient(var(--violet) 0 72%,var(--line) 72%);display:grid;place-items:center}
   .donut .in{width:64px;height:64px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-weight:900;font-size:1.15rem}
   .kv{font-size:.85rem;color:var(--sub)}.kv b{color:var(--ink)}
 
-  .zodiac .z{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+  .card.zodiac{display:flex;flex-direction:column;align-self:stretch}
+  .zodiac .z{flex:1;display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
   .zodiac .z:first-of-type{border-top:0}
   .zodiac .rk{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-weight:900;color:#fff;flex:none}
   .zodiac .z:nth-child(1) .rk{background:linear-gradient(135deg,#f6b60c,#f2743a)}
@@ -160,6 +171,9 @@
   .clap .cnt{font-weight:900;font-variant-numeric:tabular-nums;font-size:1.05rem}
   .pop{position:fixed;pointer-events:none;font-size:1.2rem;animation:pop .8s ease-out forwards;z-index:99}
   @keyframes pop{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-34px) scale(1.4)}}
+  .confetti{position:fixed;width:9px;height:9px;z-index:200;pointer-events:none;will-change:transform,opacity;animation:conf 1.15s cubic-bezier(.15,.6,.3,1) forwards}
+  @keyframes conf{0%{transform:translate(0,0) rotate(0);opacity:1}20%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 200px)) rotate(var(--rot));opacity:0}}
+  @media (prefers-reduced-motion:reduce){.confetti{display:none}}
 
   .meter .big{font-weight:900;font-size:1.7rem;line-height:1;margin-bottom:8px}
   .meter .track{height:16px;border-radius:999px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
@@ -178,7 +192,7 @@
   .lunch .txt small{display:block;color:var(--sub);font-weight:600;font-size:.7rem}
 
   /* 今週のMVP */
-  .mvp-body{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding-top:6px}
+  .mvp-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;padding-top:6px}
   .mvp-body .face{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,var(--sun),var(--orange));color:#fff;display:grid;place-items:center;font-weight:900;font-size:1.7rem;box-shadow:0 8px 18px rgba(242,116,58,.35);position:relative}
   .mvp-body .face .crown{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:1.3rem}
   .mvp-body .nm{font-weight:900;font-size:1.12rem;margin-top:8px}
@@ -657,10 +671,15 @@
     </div>
 
     <!-- 今月のランキング -->
-    <div class="card col-4 clickable" style="--ac:var(--blue)" data-detail="ranking"><span class="corner"></span>
+    <div class="card col-4 clickable" style="--ac:var(--blue);display:flex;flex-direction:column;align-self:stretch" data-detail="ranking"><span class="corner"></span>
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20h4V10H4zM10 20h4V4h-4zM16 20h4v-8h-4z"/></svg></span>
-        <div><h2>今月のランキング</h2><div class="sub">部門TOP（公開済）</div></div></div>
-      <div class="bars"><div class="bar"><b class="tnum">28</b><div class="b" style="height:88%"></div><span>生保</span></div><div class="bar"><b class="tnum">22</b><div class="b" style="height:66%"></div><span>損保</span></div><div class="bar"><b class="tnum">17</b><div class="b" style="height:50%"></div><span>回線</span></div></div>
+        <div><h2>今月のランキング</h2><div class="sub">アポ・リーズ部門 個人TOP3（公開済）</div></div></div>
+      <div class="rk3">
+        <div class="r3"><span class="rn">1</span><div class="nm">仲村 千晶<small>生命保険部</small></div><span class="vl tnum">28<small style="font-size:.62rem;font-weight:700;color:var(--sub)"> 件</small></span></div>
+        <div class="r3"><span class="rn">2</span><div class="nm">與那覇 大輝<small>損害保険部</small></div><span class="vl tnum">22<small style="font-size:.62rem;font-weight:700;color:var(--sub)"> 件</small></span></div>
+        <div class="r3"><span class="rn">3</span><div class="nm">長嶋 真衣子<small>回線事業部</small></div><span class="vl tnum">17<small style="font-size:.62rem;font-weight:700;color:var(--sub)"> 件</small></span></div>
+      </div>
+      <div class="bars" style="margin-top:auto"><div class="bar"><b class="tnum">28</b><div class="b" style="height:88%"></div><span>生保</span></div><div class="bar"><b class="tnum">22</b><div class="b" style="height:66%"></div><span>損保</span></div><div class="bar"><b class="tnum">17</b><div class="b" style="height:50%"></div><span>回線</span></div></div>
       <span class="go-hint">→</span>
     </div>
 
@@ -753,20 +772,10 @@
       </div>
     </div>
 
-    <!-- チーム目標メーター -->
-    <div class="card col-4" style="--ac:var(--green)"><span class="corner"></span>
-      <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 12l6-6"/><path d="M2.5 14a9.5 9.5 0 1 1 19 0"/><circle cx="12" cy="12" r="1.6"/></svg></span>
-        <div><h2>チーム目標メーター</h2><div class="sub">今月・全社</div></div></div>
-      <div class="meter">
-        <div class="big tnum" style="color:var(--green)"><span id="meterN" data-to="67">0</span><span style="font-size:.9rem;color:var(--sub)"> / 100件</span></div>
-        <div class="track"><div class="fill" data-w="67%"></div></div>
-        <div class="lab"><span>達成率 <span id="meterP" data-to="67">0</span>%</span><span>ラスト33件！</span></div>
-      </div>
-    </div>
 
     <!-- ▼ 行F：今週のMVP＋今日の誕生日＋現場フォト -->
     <!-- 今週のMVP -->
-    <div class="card col-4" style="--ac:var(--sun)"><span class="corner"></span>
+    <div class="card col-4" style="--ac:var(--sun);display:flex;flex-direction:column;align-self:stretch"><span class="corner"></span>
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span>
         <div><h2>今週のMVP</h2><div class="sub">みんなで拍手 👏</div></div><span class="badge">WEEKLY</span></div>
       <div class="mvp-body">
@@ -802,7 +811,7 @@
     </div>
 
     <!-- あなたの数字 -->
-    <div class="card col-4 clickable" style="--ac:var(--violet)" data-detail="mypage"><span class="corner"></span>
+    <div class="card col-4 clickable" style="--ac:var(--violet);display:flex;flex-direction:column;align-self:stretch" data-detail="mypage"><span class="corner"></span>
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-6"/></svg></span>
         <div><h2>あなたの数字</h2><div class="sub">本人のみ</div></div></div>
       <div class="donut-wrap"><div class="donut"><div class="in tnum">72%</div></div><div class="kv">今月目標<br><b>達成率72%</b>／あと<b>4件</b></div></div>
@@ -869,12 +878,31 @@
 </div>
 
 <script>
+  function confettiBurst(cx,cy){
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var colors=['#0fa0da','#f6b60c','#4bb573','#e5544b','#7a6ff0','#f2743a','#16b6b0'];
+    for(var i=0;i<30;i++){(function(){
+      var el=document.createElement('span'); el.className='confetti';
+      var c=colors[Math.floor(Math.random()*colors.length)];
+      var shape=Math.floor(Math.random()*3);
+      if(shape===2){ el.style.width='0';el.style.height='0';el.style.background='transparent';el.style.borderLeft='5px solid transparent';el.style.borderRight='5px solid transparent';el.style.borderBottom='10px solid '+c; }
+      else { el.style.background=c; el.style.borderRadius=(shape===0?'50%':'2px'); }
+      el.style.left=cx+'px'; el.style.top=cy+'px';
+      el.style.setProperty('--dx',((Math.random()*2-1)*140).toFixed(0)+'px');
+      el.style.setProperty('--dy',(-(70+Math.random()*120)).toFixed(0)+'px');
+      el.style.setProperty('--rot',((Math.random()*720)-360).toFixed(0)+'deg');
+      el.style.animationDelay=(Math.random()*0.08).toFixed(2)+'s';
+      document.body.appendChild(el);
+      setTimeout(function(){el.remove();},1300);
+    })();}
+  }
   function clap(btn){
     var n=document.getElementById('clapN');
     n.textContent=parseInt(n.textContent,10)+1;
+    var r=btn.getBoundingClientRect();
+    confettiBurst(r.left+r.width/2, r.top+r.height/2);
     var p=document.createElement('span');
     p.className='pop';p.textContent='👏';
-    var r=btn.getBoundingClientRect();
     p.style.left=(r.left+r.width/2-8)+'px';
     p.style.top=(r.top-6)+'px';
     document.body.appendChild(p);
@@ -1144,6 +1172,21 @@
     t.value=''; execLog_('コメント投稿（'+role+'）',who);
   }
   function execSetPri(btn,p){ var el=document.getElementById('execPri'); if(el){ el.textContent=p; el.className='pri '+priCls_(p); } execLog_('重要度を「'+p+'」に設定','小柳（管理）'); }
+  // 月別 苦情件数の推移（サンプル）
+  var TREND_MONTHS=['3月','4月','5月','6月','7月','8月'];
+  var AGENT_TREND={'仲村 千晶':[1,2,1,2,3,3],'グレイ 舞子':[0,0,1,1,1,1],'長嶋 真衣子':[0,1,0,1,0,1]};
+  function trendSvg_(vals,labels,color){
+    var W=560,H=150,padB=24,padT=20,padX=12,n=vals.length;
+    var max=Math.max.apply(null,vals)||1; var gap=(W-padX*2)/n; var bw=gap*0.58; var out='';
+    vals.forEach(function(v,i){
+      var x=padX+gap*i+(gap-bw)/2; var h=(H-padB-padT)*(v/max); var y=H-padB-h;
+      out+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(h,1).toFixed(1)+'" rx="4" fill="'+color+'"/>';
+      out+='<text x="'+(x+bw/2).toFixed(1)+'" y="'+(y-5).toFixed(1)+'" text-anchor="middle" font-size="12" font-weight="800" fill="#8a97a3">'+v+'</text>';
+      out+='<text x="'+(x+bw/2).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" font-size="11" fill="#8a97a3">'+labels[i]+'</text>';
+    });
+    return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block" role="img" aria-label="月別推移">'+out+'</svg>';
+  }
+  function trendOverall_(){ return TREND_MONTHS.map(function(_,i){var s=0;Object.keys(AGENT_TREND).forEach(function(k){s+=AGENT_TREND[k][i]||0;});return s;}); }
   // 募集人別サマリー
   function agentsData_(){
     var m={};
@@ -1154,7 +1197,7 @@
     var cs=EXEC_CASES.filter(function(c){return c.agent===name;});
     var html='<h1 class="dh">'+name+' の案件</h1><p class="dlead">この募集人に関する案件（サンプル）。経営・管理者のみ閲覧。</p><div class="dl-list">'+
       cs.map(function(c){var i=EXEC_CASES.indexOf(c);return '<div class="dl-row clickable" data-detail="case:'+i+'"><span class="di" style="background:#7a6ff0">📋</span><div><div class="dn">'+c.title+' <span class="pri '+priCls_(c.pri)+'">'+c.pri+'</span> <span class="st-pill '+statCls_(c.status)+'">'+c.status+'</span></div><div class="dm">'+c.cat+' ／ '+c.date+'</div></div><button class="dbtn">開く</button></div>';}).join('')+
-      '</div><p class="dnote">※ サンプル。苦情が閾値超で管理者へアラート（Power Automate）。</p>';
+      '</div>'+(AGENT_TREND[name]?('<h3 '+H3+'>'+name+' の月別 苦情件数</h3>'+trendSvg_(AGENT_TREND[name],TREND_MONTHS,'#e5544b')):'')+'<p class="dnote">※ サンプル。苦情が閾値超で管理者へアラート（Power Automate）。</p>';
     return {eyebrow:'EXEC ／ 募集人', title:name+' の案件', html:html};
   }
   function nowStr_(){ var d=new Date(); function p(n){return (n<10?'0':'')+n;} return (d.getMonth()+1)+'/'+d.getDate()+' '+p(d.getHours())+':'+p(d.getMinutes()); }
@@ -1485,7 +1528,8 @@
       '<table class="rank-tbl"><tr><th>順位</th><th>募集人</th><th>苦情</th><th>不適切</th><th>合計</th><th>状態</th></tr>'+
       agentsData_().map(function(a,i){var al=a.ku>=3?'<span class="st-pill st-doing">⚠ 要注意</span>':'<span class="st-pill st-done">良好</span>';return '<tr><td class="rk">'+(i+1)+'</td><td><span class="clickable" data-detail="agentcase:'+a.ag+'" style="text-decoration:underline">'+a.ag+'</span></td><td class="gap-neg">'+a.ku+'</td><td>'+a.fu+'</td><td><b>'+a.total+'</b></td><td>'+al+'</td></tr>';}).join('')+
       '</table>'+
-      '<p class="dnote">※ サンプル。閾値（例：苦情3件）超過で管理者へ自動アラート（Power Automate）。月別の件数推移は実データ接続後にグラフ表示。個人成績＝経営・管理者に限定。</p>'},
+      '<h3 '+H3+'>月別 苦情件数の推移（全体）</h3>'+trendSvg_(trendOverall_(),TREND_MONTHS,'#e5544b')+
+      '<p class="dnote">※ サンプル。棒＝各月の苦情件数。閾値（例：苦情3件）超過で管理者へ自動アラート（Power Automate）。個人成績＝経営・管理者に限定。</p>'},
     generic:{eyebrow:'PREVIEW',title:'準備中',html:'<h1 class="dh">準備中</h1><p class="dlead">この画面はサンプルです。実装時にここに一覧・詳細を表示します。</p>'}
   };
   var NAV=[];
