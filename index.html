@@ -71,10 +71,44 @@
     72%{transform:translateY(0) scale(1.1,.9)}
     100%{transform:translateY(0) scale(1,1)}
   }
-  .hero .hero-mascot{position:absolute;right:clamp(12px,4vw,56px);top:50%;transform:translateY(-50%);width:clamp(92px,12.5vw,168px);z-index:2;pointer-events:none}
-  .clap .clap-ouchi{width:46px;flex:none;margin-right:2px}
+  .hero .hero-mascot{position:absolute;right:clamp(10px,3.5vw,52px);top:50%;transform:translateY(-50%);width:clamp(120px,16vw,224px);z-index:5;pointer-events:none}
+  .clap .clap-ouchi{width:56px;flex:none;margin-right:4px}
+  .hero .hero-mascot .ouchi{pointer-events:auto;cursor:pointer}
+  .clap .clap-ouchi{cursor:pointer}
+  /* クリックでくすぐったがって笑う */
+  .ouchi.giggle{animation:giggle .95s ease-in-out;transform-origin:50% 78%}
+  @keyframes giggle{
+    0%,100%{transform:rotate(0) scale(1,1)}
+    10%{transform:rotate(-7deg) scale(1.04,.96)}
+    24%{transform:rotate(6deg) scale(.97,1.03)}
+    38%{transform:rotate(-6deg) scale(1.03,.97)}
+    52%{transform:rotate(5deg) scale(.98,1.02)}
+    66%{transform:rotate(-4deg) scale(1.02,.98)}
+    80%{transform:rotate(3deg)}
+    90%{transform:rotate(-2deg)}
+  }
+  .ouchi .face-laugh,.ouchi .face-nikkori,.ouchi .face-wink,.ouchi .face-bikkuri{opacity:0}
+  .ouchi.exp-nikkori .face-normal{opacity:0}.ouchi.exp-nikkori .face-nikkori{opacity:1}
+  .ouchi.exp-wink .face-normal{opacity:0}.ouchi.exp-wink .face-wink{opacity:1}
+  .ouchi.exp-bikkuri .face-normal{opacity:0}.ouchi.exp-bikkuri .face-bikkuri{opacity:1}
+  .ouchi.giggle .face-normal,.ouchi.giggle .face-nikkori,.ouchi.giggle .face-wink,.ouchi.giggle .face-bikkuri{opacity:0}
+  .ouchi.giggle .face-laugh{opacity:1}
+  /* 日替わり吹き出し */
+  .ouchi-bubble{position:absolute;left:50%;bottom:calc(100% - 10px);transform:translateX(-50%);background:#fff;border:2px solid var(--sun);color:var(--ink);font-weight:800;font-size:clamp(.72rem,1vw,.92rem);line-height:1.3;padding:7px 12px;border-radius:14px;white-space:nowrap;box-shadow:0 6px 16px rgba(24,36,48,.12);z-index:3;animation:bubblein .5s ease both}
+  .ouchi-bubble::before,.ouchi-bubble::after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:0;height:0;border-style:solid}
+  .ouchi-bubble::before{bottom:-10px;border-width:10px 8px 0 8px;border-color:var(--sun) transparent transparent transparent}
+  .ouchi-bubble::after{bottom:-7px;border-width:8px 6px 0 6px;border-color:#fff transparent transparent transparent}
+  @keyframes bubblein{0%{opacity:0;transform:translateX(-50%) translateY(6px) scale(.9)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+  .laughpop{position:fixed;transform:translate(-50%,0);font-weight:900;font-size:15px;color:var(--orange);z-index:60;pointer-events:none;white-space:nowrap;text-shadow:0 1px 2px rgba(255,255,255,.9);animation:laughfloat 1.1s ease forwards}
+  @keyframes laughfloat{
+    0%{opacity:0;transform:translate(-50%,6px) scale(.7)}
+    22%{opacity:1;transform:translate(-50%,-8px) scale(1.08)}
+    100%{opacity:0;transform:translate(-50%,-40px) scale(1)}
+  }
+  .empty-ouchi{display:flex;justify-content:center;margin:6px 0 2px}
+  .empty-ouchi .ouchi{width:150px;cursor:pointer}
   @media (max-width:760px){.hero .hero-mascot{display:none}}
-  @media (prefers-reduced-motion:reduce){.ouchi,.ouchi.jump{animation:none}}
+  @media (prefers-reduced-motion:reduce){.ouchi,.ouchi.jump,.ouchi.giggle{animation:none}}
   .kpis{display:flex;gap:clamp(18px,4vw,54px);flex-wrap:wrap;margin-top:26px}
   .kpi .n{font-weight:900;font-size:clamp(1.9rem,4vw,3.2rem);line-height:1}
   .kpi .l{font-size:.76rem;color:var(--sub);font-weight:700;margin-top:4px}
@@ -365,7 +399,9 @@
   /* ===== 学び場 ===== */
   .learn-in{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:stretch}
   @media (max-width:760px){.learn-in{grid-template-columns:1fr}}
-  .learn-msg{font-size:.95rem;line-height:1.85}
+  .learn-msg{font-size:.95rem;line-height:1.85;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .learn-ouchi{width:88px;flex:none;cursor:pointer}
+  .learn-msg p{margin:0;flex:1;min-width:200px}
   .learn-hi{background:var(--bg);border-radius:14px;padding:16px 18px;border-left:6px solid var(--green)}
   .learn-tag{display:inline-block;font-size:.66rem;font-weight:900;color:#fff;background:var(--green);border-radius:5px;padding:2px 10px;letter-spacing:.04em}
   .learn-big{font-weight:900;font-size:1.5rem;line-height:1.2;margin:9px 0 3px}
@@ -558,7 +594,7 @@
         <div class="kpi clickable" data-detail="news"><div class="n tnum">3</div><div class="l">新着お知らせ</div></div>
       </div>
     </div>
-    <div class="hero-mascot"><span class="ouchi" id="heroOuchi"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん">
+    <div class="hero-mascot"><div class="ouchi-bubble" id="ouchiBubble">今日も見直そ！</div><span class="ouchi" id="heroOuchi" onclick="ouchiTickle(this)" title="クリックしてみて！"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん（クリックで笑う）">
       <ellipse cx="100" cy="196" rx="50" ry="8" fill="#000" opacity=".07"/>
       <rect x="80" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><rect x="104" y="176" width="18" height="16" rx="8" fill="#e7c79c"/>
       <path d="M58 134 q-13 6 -11 23" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/>
@@ -566,10 +602,32 @@
       <path d="M100 74 C156 74 162 112 162 140 C162 172 134 186 100 186 C66 186 38 172 38 140 C38 112 44 74 100 74 Z" fill="#fff7ec" stroke="#f0dcc0" stroke-width="2"/>
       <path d="M44 96 Q38 92 44 86 L94 44 Q100 39 106 44 L156 86 Q162 92 156 96 Z" fill="#e3a80f"/>
       <rect x="130" y="60" width="11" height="18" rx="4" fill="#b9860a"/>
-      <circle cx="84" cy="126" r="9" fill="#33302e"/><circle cx="87.6" cy="122.4" r="3" fill="#fff"/>
-      <circle cx="116" cy="126" r="9" fill="#33302e"/><circle cx="119.6" cy="122.4" r="3" fill="#fff"/>
       <circle cx="70" cy="144" r="7.5" fill="#ffb39b" opacity=".85"/><circle cx="130" cy="144" r="7.5" fill="#ffb39b" opacity=".85"/>
-      <path d="M87 142 Q100 156 113 142" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      <g class="face-normal">
+        <circle cx="84" cy="126" r="9" fill="#33302e"/><circle cx="87.6" cy="122.4" r="3" fill="#fff"/>
+        <circle cx="116" cy="126" r="9" fill="#33302e"/><circle cx="119.6" cy="122.4" r="3" fill="#fff"/>
+        <path d="M87 142 Q100 156 113 142" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      </g>
+      <g class="face-laugh">
+        <path d="M76 126 q8 -9 16 0" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        <path d="M108 126 q8 -9 16 0" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        <path d="M86 140 Q100 160 114 140 Z" fill="#fff" stroke="#33302e" stroke-width="2.8"/>
+      </g>
+      <g class="face-nikkori">
+        <path d="M76 126 q8 -9 16 0" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        <path d="M108 126 q8 -9 16 0" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        <path d="M88 143 Q100 154 112 143" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      </g>
+      <g class="face-wink">
+        <circle cx="84" cy="126" r="9" fill="#33302e"/><circle cx="87.6" cy="122.4" r="3" fill="#fff"/>
+        <path d="M108 128 q8 -9 16 0" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        <path d="M87 142 Q100 155 113 142" stroke="#33302e" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      </g>
+      <g class="face-bikkuri">
+        <circle cx="84" cy="125" r="10" fill="#33302e"/><circle cx="88" cy="121" r="3.4" fill="#fff"/>
+        <circle cx="116" cy="125" r="10" fill="#33302e"/><circle cx="120" cy="121" r="3.4" fill="#fff"/>
+        <ellipse cx="100" cy="148" rx="6" ry="8" fill="#33302e"/>
+      </g>
       <circle cx="100" cy="166" r="12" fill="#f2743a"/><text x="100" y="171" font-size="13" font-weight="900" text-anchor="middle" fill="#fff">¥</text>
     </svg></span></div>
   </div>
@@ -703,7 +761,7 @@
         <div class="row"><span class="em">🎊</span><span class="txt">長嶋 真衣子さん<small>回線・申込1件（うるま）</small></span></div>
         <div class="row"><span class="em">💐</span><span class="txt">グレイ 舞子さん<small>紹介からの申込（名護）</small></span></div>
       </div></div>
-      <div class="clap"><span class="ouchi clap-ouchi" id="clapOuchi"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん">
+      <div class="clap"><span class="ouchi clap-ouchi" id="clapOuchi" onclick="ouchiTickle(this)" title="クリックしてみて！"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん（クリックで笑う）">
         <ellipse cx="100" cy="196" rx="50" ry="8" fill="#000" opacity=".07"/>
         <rect x="80" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><rect x="104" y="176" width="18" height="16" rx="8" fill="#e7c79c"/>
         <path d="M56 128 q-18 -6 -25 -22" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/><circle cx="29" cy="103" r="8.5" fill="#e7c79c"/>
@@ -749,6 +807,24 @@
         <div><h2>学び場</h2><div class="sub">トップ営業のログから、AIが"あなたの伸びしろ"を解説</div></div><span class="badge" style="background:var(--green)">AI × ログ連携</span></div>
       <div class="learn-in">
         <div class="learn-msg">
+          <span class="ouchi learn-ouchi" id="learnOuchi" onclick="event.stopPropagation();ouchiTickle(this)" title="クリックしてみて！"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん（案内役）">
+            <ellipse cx="100" cy="196" rx="50" ry="8" fill="#000" opacity=".07"/>
+            <rect x="80" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><rect x="104" y="176" width="18" height="16" rx="8" fill="#e7c79c"/>
+            <path d="M56 132 q-14 6 -12 24" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M146 132 q15 2 19 14" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <rect x="150" y="132" width="26" height="32" rx="4" fill="#fff" stroke="#3a9c60" stroke-width="2"/>
+            <path d="M156 141 l3 3 5 -6" stroke="#4bb573" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M156 152 l3 3 5 -6" stroke="#4bb573" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M100 74 C156 74 162 112 162 140 C162 172 134 186 100 186 C66 186 38 172 38 140 C38 112 44 74 100 74 Z" fill="#fff7ec" stroke="#f0dcc0" stroke-width="2"/>
+            <path d="M44 96 Q38 92 44 86 L94 44 Q100 39 106 44 L156 86 Q162 92 156 96 Z" fill="#e3a80f"/>
+            <rect x="130" y="60" width="11" height="18" rx="4" fill="#b9860a"/>
+            <circle cx="84" cy="124" r="13" fill="none" stroke="#3a322c" stroke-width="2.8"/>
+            <circle cx="116" cy="124" r="13" fill="none" stroke="#3a322c" stroke-width="2.8"/>
+            <path d="M97 124 h6" stroke="#3a322c" stroke-width="2.8"/>
+            <circle cx="84" cy="124" r="5" fill="#33302e"/><circle cx="116" cy="124" r="5" fill="#33302e"/>
+            <circle cx="69" cy="141" r="6.5" fill="#ffb39b" opacity=".85"/><circle cx="131" cy="141" r="6.5" fill="#ffb39b" opacity=".85"/>
+            <path d="M90 143 Q100 152 110 143" stroke="#33302e" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg></span>
           <p>成績優秀者の<b>活動ログ（架電・面談・成約・フォロー）</b>をAIが分析し、<b>あなたとの違い</b>と<b>今日からできる成長のヒント</b>をお届けします。<br>「教えて」を押すと、あなた専用の分析と改善アクションが開きます。</p>
         </div>
         <div class="learn-hi">
@@ -963,6 +1039,42 @@
     el.classList.remove('jump'); void el.offsetWidth; el.classList.add('jump');
     setTimeout(function(){ el.classList.remove('jump'); },740);
   }
+
+  // おうちくんをクリック → くすぐったがって笑う（ぷるぷる＋笑顔＋笑い声）
+  function ouchiTickle(el){
+    if(!el) return;
+    el.classList.remove('giggle'); void el.offsetWidth; el.classList.add('giggle');
+    setTimeout(function(){ el.classList.remove('giggle'); },960);
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(reduce) return;
+    var words=['ふふっ','あははっ！','くすぐったい！','えへへ','ふふふっ'];
+    var r=el.getBoundingClientRect();
+    var t=document.createElement('span'); t.className='laughpop';
+    t.textContent=words[Math.floor(Math.random()*words.length)];
+    t.style.left=(r.left+r.width/2)+'px';
+    t.style.top=(r.top+r.height*0.12)+'px';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.remove(); },1150);
+  }
+
+  // 日替わり吹き出し＆表情（日付で決定＝毎日変わる）
+  (function(){
+    var msgs=[
+      {t:'今日も見直そ！',e:'exp-nikkori'},
+      {t:'ムリなく、コツコツ。',e:''},
+      {t:'いい笑顔いただきました！',e:'exp-wink'},
+      {t:'家計、身がるに。',e:'exp-nikkori'},
+      {t:'今日のアポ、応援してます！',e:''},
+      {t:'ちいさな見直し、大きな安心。',e:'exp-nikkori'},
+      {t:'わからない時は聞いてね。',e:'exp-wink'},
+      {t:'ナイス提出！',e:'exp-bikkuri'}
+    ];
+    var d=new Date();
+    var idx=(d.getFullYear()*372 + d.getMonth()*31 + d.getDate()) % msgs.length;
+    var m=msgs[idx];
+    var b=document.getElementById('ouchiBubble'); if(b) b.textContent=m.t;
+    var h=document.getElementById('heroOuchi'); if(h && m.e) h.classList.add(m.e);
+  })();
 
   // 誕生日：お祝いボタン（🎉が舞う）
   function celebrate(btn){
@@ -1585,7 +1697,7 @@
       '</table>'+
       '<h3 '+H3+'>月別 苦情件数の推移（全体）</h3>'+trendSvg_(trendOverall_(),TREND_MONTHS,'#e5544b')+
       '<p class="dnote">※ サンプル。棒＝各月の苦情件数。閾値（例：苦情3件）超過で管理者へ自動アラート（Power Automate）。個人成績＝経営・管理者に限定。</p>'},
-    generic:{eyebrow:'PREVIEW',title:'準備中',html:'<h1 class="dh">準備中</h1><p class="dlead">この画面はサンプルです。実装時にここに一覧・詳細を表示します。</p>'}
+    generic:{eyebrow:'PREVIEW',title:'準備中',html:'<div class="empty-ouchi"><span class="ouchi" onclick="ouchiTickle(this)" title="クリックしてみて！"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん（すやすや）"><g fill="#9aa8b4" opacity=".7" font-weight="900" font-family="Segoe UI"><text x="150" y="70" font-size="16">z</text><text x="162" y="54" font-size="21">Z</text></g><ellipse cx="100" cy="196" rx="50" ry="8" fill="#000" opacity=".07"/><rect x="80" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><rect x="104" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><path d="M58 138 q-12 5 -11 21" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M142 138 q12 5 11 21" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M100 74 C156 74 162 112 162 140 C162 172 134 186 100 186 C66 186 38 172 38 140 C38 112 44 74 100 74 Z" fill="#fff7ec" stroke="#f0dcc0" stroke-width="2"/><path d="M44 96 Q38 92 44 86 L94 44 Q100 39 106 44 L156 86 Q162 92 156 96 Z" fill="#e3a80f"/><rect x="130" y="60" width="11" height="18" rx="4" fill="#b9860a"/><path d="M76 126 q8 8 16 0" stroke="#33302e" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M108 126 q8 8 16 0" stroke="#33302e" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="70" cy="142" r="7.5" fill="#ffb39b" opacity=".85"/><circle cx="130" cy="142" r="7.5" fill="#ffb39b" opacity=".85"/><path d="M92 145 q8 6 16 0" stroke="#33302e" stroke-width="2.8" fill="none" stroke-linecap="round"/></svg></span></div><h1 class="dh" style="text-align:center">準備中…</h1><p class="dlead" style="text-align:center">この画面はサンプルです。おうちくんが準備をお昼寝しながら待っています。実装時にここへ一覧・詳細を表示します。</p>'}
   };
   var NAV=[];
   function renderDetail_(key){
