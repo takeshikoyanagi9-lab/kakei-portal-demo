@@ -191,6 +191,11 @@
   .at-m.ap2 .at-fill{background:linear-gradient(90deg,#f2743a,#f6b60c)}
   .at-cheer{margin-top:13px;font-weight:800;color:var(--ink);background:linear-gradient(90deg,rgba(246,182,12,.16),rgba(75,181,115,.16));border-radius:12px;padding:10px 14px;font-size:.95rem}
   .at-cheer b{color:var(--orange)}
+  .at-cheer.done{background:linear-gradient(90deg,#ffe7a0,#ffcf5f);color:#7a4a00;box-shadow:0 6px 18px rgba(246,182,12,.28);animation:cheerpulse 1s ease 2}
+  .at-cheer.done b{color:#b5560a}
+  @keyframes cheerpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+  .num-bump{display:inline-block;animation:numbump .55s ease}
+  @keyframes numbump{0%{transform:scale(1)}40%{transform:scale(1.4);color:var(--orange)}100%{transform:scale(1)}}
   @media (max-width:640px){.at-grid{grid-template-columns:1fr}}
   .maps{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .region-hd{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:8px;font-size:.96rem}
@@ -1197,7 +1202,17 @@
       cheer.innerHTML = rem>0
         ? 'あと <b>'+rem+'件</b> でみんなの申込目標！ 全員で追いかけよう🔥'
         : '🎉 みんなで今日の申込目標を達成！ ナイスチーム！';
+      cheer.classList.toggle('done', rem<=0);
     }
+  }
+  function bumpNum(el){ if(!el) return; el.classList.remove('num-bump'); void el.offsetWidth; el.classList.add('num-bump'); }
+  function salesCelebrate(){
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var W=window.innerWidth, H=window.innerHeight;
+    confettiBurst(W*0.5, H*0.30, 150);
+    setTimeout(function(){ confettiBurst(W*0.22, H*0.36, 90); }, 150);
+    setTimeout(function(){ confettiBurst(W*0.78, H*0.36, 90); }, 300);
+    ouchiPopAt(W*0.5, H*0.44);
   }
   function ouchiPopAt(x,y){
     if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
@@ -1215,6 +1230,8 @@
     ouchiPopAt(cx,cy);
     var region=pin.getAttribute('data-region')||'ok';
     SALES.app+=1; SALES.apo+=1; salesUpdateRace();
+    bumpNum(document.getElementById('appCount')); bumpNum(document.getElementById('apoCount'));
+    if(!SALES.celebrated && SALES.app>=SALES.appTarget){ SALES.celebrated=true; salesCelebrate(); }
     var name=pin.getAttribute('data-name')||'メンバー', city=pin.getAttribute('data-city')||'';
     var list=document.getElementById('lfList');
     if(list){
