@@ -177,18 +177,21 @@
   .appt .a .tm{margin-left:auto;font-size:.76rem;font-weight:800;color:var(--blue)}
   /* ===== 営業ハブ（沖縄×北海道） ===== */
   .saleshub .streak{background:linear-gradient(90deg,#f2743a,#f6b60c);color:#fff;font-weight:800;font-size:.82rem;padding:5px 13px;border-radius:999px;margin-left:auto;margin-right:8px;white-space:nowrap}
-  .saleshub .vs{display:flex;align-items:stretch;gap:14px;margin:8px 0 16px}
-  .vs-team{flex:1;background:var(--bg);border-radius:16px;padding:13px 16px;border:2px solid transparent}
-  .vs-team.lead{border-color:var(--sun);box-shadow:0 6px 18px rgba(246,182,12,.18)}
-  .vs-team .vt-top{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.98rem}
-  .vs-team .vt-top b{margin-left:auto;font-size:1.55rem;line-height:1}
-  .vs-team .vt-top small{font-weight:700;color:var(--sub);font-size:.76rem;margin-left:3px}
-  .vs-team .crown{font-size:1.15rem}
-  .vs-team .vbar{height:14px;border-radius:999px;background:#e2e9ef;overflow:hidden;margin-top:10px}
-  .vs-team .vfill{height:100%;border-radius:999px;transition:width .7s cubic-bezier(.2,.7,.3,1)}
-  .vs-team.ok .vfill{background:linear-gradient(90deg,#16b6b0,#5bd6cf)}
-  .vs-team.hk .vfill{background:linear-gradient(90deg,#0fa0da,#6cc6f2)}
-  .vs-mid{align-self:center;font-weight:900;color:var(--sub);font-size:1.15rem;flex:none}
+  .alltoday{background:var(--bg);border-radius:16px;padding:14px 16px;margin:8px 0 16px}
+  .at-hd{font-weight:800;font-size:1rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .at-hd .at-sub{color:var(--sub);font-weight:700;font-size:.8rem}
+  .at-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+  .at-m .at-top{display:flex;align-items:center;gap:8px}
+  .at-m .at-lb{font-weight:800;font-size:.94rem}
+  .at-m .at-top b{margin-left:auto;font-size:1.55rem;line-height:1}
+  .at-m .at-top b small{font-size:.82rem;color:var(--sub);font-weight:800}
+  .at-m .at-bar{height:14px;border-radius:999px;background:#e2e9ef;overflow:hidden;margin-top:9px}
+  .at-m .at-fill{height:100%;border-radius:999px;transition:width .7s cubic-bezier(.2,.7,.3,1)}
+  .at-m.ap .at-fill{background:linear-gradient(90deg,#16b6b0,#5bd6cf)}
+  .at-m.ap2 .at-fill{background:linear-gradient(90deg,#f2743a,#f6b60c)}
+  .at-cheer{margin-top:13px;font-weight:800;color:var(--ink);background:linear-gradient(90deg,rgba(246,182,12,.16),rgba(75,181,115,.16));border-radius:12px;padding:10px 14px;font-size:.95rem}
+  .at-cheer b{color:var(--orange)}
+  @media (max-width:640px){.at-grid{grid-template-columns:1fr}}
   .maps{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .region-hd{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:8px;font-size:.96rem}
   .region-hd .rsub{color:var(--sub);font-weight:700;font-size:.8rem}
@@ -735,17 +738,14 @@
         <div><h2>今日の営業マップ</h2><div class="sub">沖縄 × 北海道、みんなで数字を追おう</div></div>
         <span class="streak">🔥 12日連続 目標達成中</span><span class="badge">● LIVE</span></div>
 
-      <!-- 拠点対抗レース -->
-      <div class="vs">
-        <div class="vs-team ok lead" id="teamOk">
-          <div class="vt-top"><span class="crown" id="crownOk">👑</span>🌺 沖縄チーム<b class="tnum" id="okCount">5</b><small>件 / 今日</small></div>
-          <div class="vbar"><div class="vfill" id="okFill" style="width:56%"></div></div>
+      <!-- 全チーム 今日の共有ゴール -->
+      <div class="alltoday">
+        <div class="at-hd">🎯 今日、みんなで追う数字<span class="at-sub">沖縄＋北海道 全チーム合算</span></div>
+        <div class="at-grid">
+          <div class="at-m ap"><div class="at-top"><span class="at-lb">📅 アポ獲得</span><b><span class="tnum" id="apoCount">18</span> <small>/ 目標30</small></b></div><div class="at-bar"><div class="at-fill" id="apoFill" style="width:60%"></div></div></div>
+          <div class="at-m ap2"><div class="at-top"><span class="at-lb">✍️ 申込</span><b><span class="tnum" id="appCount">9</span> <small>/ 目標15</small></b></div><div class="at-bar"><div class="at-fill" id="appFill" style="width:60%"></div></div></div>
         </div>
-        <div class="vs-mid">VS</div>
-        <div class="vs-team hk" id="teamHk">
-          <div class="vt-top"><span class="crown" id="crownHk" style="visibility:hidden">👑</span>❄️ 北海道チーム<b class="tnum" id="hkCount">4</b><small>件 / 今日</small></div>
-          <div class="vbar"><div class="vfill" id="hkFill" style="width:44%"></div></div>
-        </div>
+        <div class="at-cheer" id="atCheer">あと <b>6件</b> でみんなの申込目標！ 全員で追いかけよう🔥</div>
       </div>
 
       <!-- 2拠点マップ -->
@@ -1184,21 +1184,20 @@
   })();
 
   // ===== 営業ハブ：拠点対抗レース＋ライブ演出 =====
-  var SALES={ok:5, hk:4, target:9};
+  var SALES={apo:18, app:9, apoTarget:30, appTarget:15};
   function salesUpdateRace(){
-    var o=SALES.ok,h=SALES.hk,mx=Math.max(SALES.target,o,h);
-    var oc=document.getElementById('okCount'),hc=document.getElementById('hkCount');
-    if(oc) oc.textContent=o; if(hc) hc.textContent=h;
-    var of=document.getElementById('okFill'),hf=document.getElementById('hkFill');
-    if(of) of.style.width=Math.round(o/mx*100)+'%';
-    if(hf) hf.style.width=Math.round(h/mx*100)+'%';
-    var co=document.getElementById('crownOk'),ch=document.getElementById('crownHk');
-    var to=document.getElementById('teamOk'),th=document.getElementById('teamHk');
-    var okLead=o>=h;
-    if(co) co.style.visibility=okLead?'visible':'hidden';
-    if(ch) ch.style.visibility=okLead?'hidden':'visible';
-    if(to) to.classList.toggle('lead',okLead);
-    if(th) th.classList.toggle('lead',!okLead);
+    var a=document.getElementById('apoCount'), p=document.getElementById('appCount');
+    if(a) a.textContent=SALES.apo; if(p) p.textContent=SALES.app;
+    var af=document.getElementById('apoFill'), pf=document.getElementById('appFill');
+    if(af) af.style.width=Math.min(100,Math.round(SALES.apo/SALES.apoTarget*100))+'%';
+    if(pf) pf.style.width=Math.min(100,Math.round(SALES.app/SALES.appTarget*100))+'%';
+    var cheer=document.getElementById('atCheer');
+    if(cheer){
+      var rem=SALES.appTarget-SALES.app;
+      cheer.innerHTML = rem>0
+        ? 'あと <b>'+rem+'件</b> でみんなの申込目標！ 全員で追いかけよう🔥'
+        : '🎉 みんなで今日の申込目標を達成！ ナイスチーム！';
+    }
   }
   function ouchiPopAt(x,y){
     if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
@@ -1215,7 +1214,7 @@
     confettiBurst(cx,cy,70);
     ouchiPopAt(cx,cy);
     var region=pin.getAttribute('data-region')||'ok';
-    SALES[region]=(SALES[region]||0)+1; salesUpdateRace();
+    SALES.app+=1; SALES.apo+=1; salesUpdateRace();
     var name=pin.getAttribute('data-name')||'メンバー', city=pin.getAttribute('data-city')||'';
     var list=document.getElementById('lfList');
     if(list){
