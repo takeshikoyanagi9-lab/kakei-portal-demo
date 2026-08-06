@@ -209,7 +209,8 @@
   .saleshub .pin .pt.flash{animation:pinflash .9s ease 2}
   @keyframes pinflash{0%{box-shadow:0 0 0 0 rgba(246,182,12,.85)}100%{box-shadow:0 0 0 20px rgba(246,182,12,0)}}
   /* 社用車が巡回 */
-  .carmover{position:absolute;left:49%;top:63%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 7px rgba(0,0,0,.28);display:grid;place-items:center;font-size:15px;line-height:1;z-index:5;pointer-events:none}
+  .carmover{position:absolute;left:49%;top:63%;transform:translate(-50%,-62%);width:42px;z-index:5;pointer-events:none;filter:drop-shadow(0 4px 5px rgba(0,0,0,.22))}
+  .carmover svg{width:100%;height:auto;display:block}
   @keyframes okcar{0%{left:49%;top:63%}33%{left:63%;top:48%}66%{left:75%;top:37%}100%{left:88%;top:20%}}
   @keyframes hkcar{0%{left:25%;top:83%}25%{left:38%;top:63%}55%{left:31%;top:56%}80%{left:55%;top:50%}100%{left:55%;top:30%}}
   @media (prefers-reduced-motion:reduce){.carmover{animation:none!important}}
@@ -787,8 +788,8 @@
             <div class="pin" data-region="ok" data-name="仲村 千晶" data-city="沖縄市" style="left:63%;top:48%"><span class="pt" style="background:var(--blue)"></span><span class="lb">仲村/沖縄市</span></div>
             <div class="pin" data-region="ok" data-name="長嶋 真衣子" data-city="うるま" style="left:75%;top:37%"><span class="pt" style="background:var(--violet)"></span><span class="lb">長嶋/うるま</span></div>
             <div class="pin" data-region="ok" data-name="グレイ 舞子" data-city="名護" style="left:88%;top:20%"><span class="pt" style="background:var(--orange)"></span><span class="lb">グレイ/名護</span></div>
-            <span class="carmover" style="animation:okcar 7.5s ease-in-out infinite alternate" aria-label="社用車">🚗</span>
-            <span class="carmover" style="animation:okcar 7.5s ease-in-out infinite alternate;animation-delay:-3.7s" aria-label="社用車">🚙</span>
+            <span class="carmover" style="animation:okcar 7.5s ease-in-out infinite alternate" aria-label="おうちくん（外回り）"></span>
+            <span class="carmover" style="animation:okcar 7.5s ease-in-out infinite alternate;animation-delay:-3.7s" aria-label="おうちくん（外回り）"></span>
           </div>
         </div>
         <div class="region hk">
@@ -803,8 +804,8 @@
             <div class="pin" data-region="hk" data-name="佐藤 美咲" data-city="小樽" style="left:31%;top:56%"><span class="pt" style="background:#16b6b0"></span><span class="lb">佐藤/小樽</span></div>
             <div class="pin" data-region="hk" data-name="鈴木 一花" data-city="旭川" style="left:55%;top:50%"><span class="pt" style="background:#7a6ff0"></span><span class="lb">鈴木/旭川</span></div>
             <div class="pin" data-region="hk" data-name="高橋 健" data-city="函館" style="left:25%;top:83%"><span class="pt" style="background:#e5544b"></span><span class="lb">高橋/函館</span></div>
-            <span class="carmover" style="left:25%;top:83%;animation:hkcar 8.5s ease-in-out infinite alternate" aria-label="社用車">🚗</span>
-            <span class="carmover" style="left:25%;top:83%;animation:hkcar 8.5s ease-in-out infinite alternate;animation-delay:-4.2s" aria-label="社用車">🚙</span>
+            <span class="carmover" style="left:25%;top:83%;animation:hkcar 8.5s ease-in-out infinite alternate" aria-label="おうちくん（外回り）"></span>
+            <span class="carmover" style="left:25%;top:83%;animation:hkcar 8.5s ease-in-out infinite alternate;animation-delay:-4.2s" aria-label="おうちくん（外回り）"></span>
           </div>
         </div>
       </div>
@@ -1218,6 +1219,9 @@
       nodes[i].setAttribute('title','クリックしてみて！');
       nodes[i].addEventListener('click',function(e){ e.stopPropagation(); ouchiTickle(this); });
     }
+    // 外回りのおうちくん（地図を巡回）
+    var cars=document.querySelectorAll('.carmover');
+    for(var j=0;j<cars.length;j++){ cars[j].innerHTML=OUCHI_HTML; }
   })();
 
   // ===== 営業ハブ：拠点対抗レース＋ライブ演出 =====
