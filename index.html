@@ -684,11 +684,11 @@
   <div class="rolebar">
     <span class="rb-lb">👁 表示プレビュー</span>
     <select id="roleSel" onchange="applyRole(this.value)" aria-label="表示する役割を選ぶ">
-      <option value="admin">管理者（運営）</option>
-      <option value="manager">上長</option>
-      <option value="staff">一般社員</option>
-      <option value="soumu">総務</option>
-      <option value="compliance">コンプラ</option>
+      <option value="y1">❶ 小柳（全権・運営）</option>
+      <option value="y2">❷ 長澤（営業マネージャー）</option>
+      <option value="y3">❸ 管理担当</option>
+      <option value="y4">❹ 上長</option>
+      <option value="y5">❺ 社員・アルバイト</option>
     </select>
     <span class="rb-note" id="roleNote"></span>
   </div>
@@ -2078,38 +2078,30 @@
   })();
 
   // ===== 社内イントラ：役割による表示の出し分け（プレビュー。実制御はMicrosoft 365） =====
-  var ROLE_NAMES={admin:'管理者（運営）',manager:'上長',staff:'一般社員',soumu:'総務',compliance:'コンプラ'};
+  var ROLE_NAMES={y1:'❶ 小柳（全権・運営）',y2:'❷ 長澤（営業マネージャー）',y3:'❸ 管理担当',y4:'❹ 上長',y5:'❺ 社員・アルバイト'};
   var ROLE_SCOPE={
-    admin:'すべて閲覧可（経営陣報告・管理情報を含む）',
-    manager:'部門の掲示・部下の状況まで（経営陣報告は不可）',
-    staff:'日々の掲示・自分の数字・資料室まで（経営陣報告・管理情報は不可）',
-    soumu:'申請・研修・資料室・自己点検など事務中心（営業掲示は非表示）',
-    compliance:'コンプラ関連＋お客様の声・資料室（営業掲示は非表示）'
+    y1:'すべて閲覧・編集可。仕組みの変更もできる唯一の役割（サイト管理者）',
+    y2:'営業関係の内容変更・データ投入を担当。経営陣報告も閲覧可',
+    y3:'担当項目の内容変更・更新を担当。経営陣報告も閲覧可（総務/コンプラ機能は今後分割）',
+    y4:'管轄内の従業員の状況を確認。報告は❷長澤へ。経営陣報告は閲覧不可',
+    y5:'閲覧＋申請。報告は❷長澤へ。経営陣報告など管理情報は閲覧不可'
   };
   function portalRoleInit(){
-    var SALES='admin,manager,staff'; // 営業・掲示系（総務/コンプラは非表示）
-    function tag(el,roles){ if(el && el.classList && el.classList.contains('card') && !el.getAttribute('data-roles')) el.setAttribute('data-roles',roles); }
-    var map={exec:'admin', learn:SALES, mypage:SALES, ranking:SALES, gallery:SALES, sns:SALES, voices:'admin,manager,staff,compliance'};
-    var dd=document.querySelectorAll('.card[data-detail]');
-    for(var i=0;i<dd.length;i++){ var k=dd[i].getAttribute('data-detail'); if(map[k]) tag(dd[i],map[k]); }
-    tag(document.querySelector('.saleshub'),SALES);
-    tag(document.querySelector('.card.mgr'),SALES);
-    tag(document.querySelector('.card.zodiac'),SALES);
-    var clap=document.querySelector('.clap'); if(clap) tag(clap.closest('.card'),SALES);
-    var wx=document.querySelector('.wx'); if(wx) tag(wx.closest('.card'),SALES);
-    var h2s=document.querySelectorAll('.card h2');
-    for(var j=0;j<h2s.length;j++){ var t=h2s[j].textContent; if(t.indexOf('半期社長賞')>=0||t.indexOf('今週のMVP')>=0) tag(h2s[j].closest('.card'),SALES); }
+    // 閲覧を制限するのは経営陣報告（機微情報）だけ＝❶❷❸のみ。他は全役割が閲覧可（上位は下位を含む）
+    var exec=document.querySelector('.card[data-detail="exec"]');
+    if(exec) exec.setAttribute('data-roles','y1,y2,y3');
   }
   function applyRole(role){
     var els=document.querySelectorAll('[data-roles]');
     for(var i=0;i<els.length;i++){ var r=els[i].getAttribute('data-roles').split(','); els[i].classList.toggle('role-hidden', r.indexOf(role)<0); }
-    var note=document.getElementById('roleNote'); if(note) note.textContent='＝'+(ROLE_NAMES[role]||role)+'：'+(ROLE_SCOPE[role]||'')+'（プレビュー。実際の可否は Microsoft 365 の権限で制御）';
+    var note=document.getElementById('roleNote'); if(note) note.textContent='＝'+(ROLE_NAMES[role]||role)+'：'+(ROLE_SCOPE[role]||'')+'（上位は下位を含む／実際の可否は Microsoft 365 の権限で制御）';
     var sel=document.getElementById('roleSel'); if(sel) sel.value=role;
     try{ localStorage.setItem('kakei_role',role); }catch(e){}
   }
   (function(){
     portalRoleInit();
-    var saved='admin'; try{ var s=localStorage.getItem('kakei_role'); if(s) saved=s; }catch(e){}
+    var valid={y1:1,y2:1,y3:1,y4:1,y5:1}, saved='y1';
+    try{ var s=localStorage.getItem('kakei_role'); if(s&&valid[s]) saved=s; }catch(e){}
     applyRole(saved);
   })();
 
