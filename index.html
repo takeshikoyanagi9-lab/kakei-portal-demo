@@ -9,11 +9,11 @@
   :root{
     --bg:#f4f7fa; --card:#ffffff; --ink:#182430; --sub:#54636f; --line:#e6ecf1;
     --blue:#0fa0da; --turq:#16b6b0; --sun:#f6b60c; --green:#4bb573; --orange:#f2743a; --red:#e5544b; --violet:#7a6ff0;
-    --shadow:0 8px 26px rgba(24,36,48,.09); --radius:18px;
+    --shadow:0 1px 2px rgba(24,36,48,.05),0 10px 28px rgba(24,36,48,.08); --radius:18px;
   }
-  @media (prefers-color-scheme:dark){:root{--bg:#0b1218;--card:#131d26;--ink:#e9f0f6;--sub:#93a3b0;--line:#213039;--shadow:0 10px 30px rgba(0,0,0,.45)}}
-  :root[data-theme="dark"]{--bg:#0b1218;--card:#131d26;--ink:#e9f0f6;--sub:#93a3b0;--line:#213039;--shadow:0 10px 30px rgba(0,0,0,.45)}
-  :root[data-theme="light"]{--bg:#f4f7fa;--card:#fff;--ink:#182430;--sub:#54636f;--line:#e6ecf1;--shadow:0 8px 26px rgba(24,36,48,.09)}
+  @media (prefers-color-scheme:dark){:root{--bg:#0b1218;--card:#131d26;--ink:#e9f0f6;--sub:#93a3b0;--line:#213039;--shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.45)}}
+  :root[data-theme="dark"]{--bg:#0b1218;--card:#131d26;--ink:#e9f0f6;--sub:#93a3b0;--line:#213039;--shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.45)}
+  :root[data-theme="light"]{--bg:#f4f7fa;--card:#fff;--ink:#182430;--sub:#54636f;--line:#e6ecf1;--shadow:0 1px 2px rgba(24,36,48,.05),0 10px 28px rgba(24,36,48,.08)}
 
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--ink);font-family:"Helvetica Neue","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
@@ -141,7 +141,7 @@
   .hd{display:flex;align-items:center;gap:11px;margin-bottom:14px}
   .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:var(--ac,var(--blue))}
   .ic svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
-  .card h2{font-size:1.1rem;font-weight:800}.card .sub{font-size:.9rem;color:var(--sub);font-weight:600}
+  .card h2{font-size:1.1rem;font-weight:800;letter-spacing:-.01em}.card .sub{font-size:.9rem;color:var(--sub);font-weight:600}
   .badge{margin-left:auto;color:#fff;font-size:.8rem;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--ac,var(--blue))}
 
   .col-8{grid-column:span 8}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-9{grid-column:span 9}.col-3{grid-column:span 3}.col-12{grid-column:1 / -1}
@@ -443,8 +443,11 @@
   .pf-row .v .chg{margin-top:0}
 
   /* ===== 詳細画面（ドリルダウン） ===== */
-  .clickable{cursor:pointer;transition:transform .12s,box-shadow .12s}
-  .clickable:hover{transform:translateY(-3px)}
+  .clickable{cursor:pointer;transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s cubic-bezier(.16,1,.3,1)}
+  .clickable:hover{transform:translateY(-3px);box-shadow:0 4px 10px rgba(24,36,48,.06),0 18px 42px rgba(24,36,48,.14)}
+  .clickable:active{transform:translateY(-1px) scale(.995)}
+  a:focus-visible,button:focus-visible,.clickable:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:12px}
+  @media (prefers-reduced-motion:reduce){.clickable{transition:none}.clickable:hover{transform:none}}
   .go-hint{position:absolute;right:16px;bottom:14px;color:var(--sub);font-weight:900;font-size:1.1rem;opacity:.6}
   .detail-view{position:fixed;inset:0;z-index:60;background:var(--bg);overflow-y:auto;display:none}
   .detail-view.open{display:block;animation:dfade .2s ease}
@@ -1850,8 +1853,8 @@
       '<div class="gi"><h4>社内カレンダー</h4><p>予定・研修</p></div>'+
       '<div class="gi"><h4>IT・情報システム</h4><p>PC・アカウント</p></div>'+
       '</div>'},
-    learn:{eyebrow:'LEARNING ／ AI×ログ連携',title:'学び場 — トップ営業から学ぶ',html:
-      '<h1 class="dh">学び場 — トップ営業から学ぶ</h1><p class="dlead">エンライフの活動ログをAIが分析。成績優秀者のやり方とあなたの違いを解説し、<b>今日からできる成長のヒント</b>をお届けします（サンプル）。</p>'+
+    learn:{eyebrow:'LEARNING ／ AI×ログ連携',title:'学び場：トップ営業から学ぶ',html:
+      '<h1 class="dh">学び場：トップ営業から学ぶ</h1><p class="dlead">エンライフの活動ログをAIが分析。成績優秀者のやり方とあなたの違いを解説し、<b>今日からできる成長のヒント</b>をお届けします（サンプル）。</p>'+
       '<div class="chips"><span class="chip-on">仲村さん（生保No.1）に学ぶ</span><span>上間さん（損保No.1）に学ぶ</span><span>チーム平均と比べる</span></div>'+
       '<p class="dnote" style="margin-top:0">🔗 データ連携：エンライフ活動ログ（架電・面談・成約・フォロー）／ トップのログは学習用に<b>匿名化・本人同意</b>のうえ利用</p>'+
       '<h3 '+H3+'>あなた vs 仲村さん（直近30日）</h3>'+
@@ -1862,13 +1865,13 @@
       '<tr><td>通話後24hフォロー率</td><td>45%</td><td>92%</td><td class="gap-neg">−47pt</td></tr>'+
       '<tr><td>継続率</td><td>93%</td><td>98%</td><td class="gap-neg">−5pt</td></tr>'+
       '<tr><td>面談での「紹介の一言」実施率</td><td>18%</td><td>95%</td><td class="gap-neg">−77pt</td></tr></table>'+
-      '<h3 '+H3+'>AIの解説 — 差はここから生まれています</h3>'+
+      '<h3 '+H3+'>AIの解説：差はここから生まれています</h3>'+
       '<div class="dl-list">'+
       '<div class="dl-row"><span class="di" style="background:var(--sun)">💡</span><div><div class="dn">初回で「家計の一番の不安」を1つ深掘りしている</div><div class="dm">仲村さん88% ／ あなた41%。最初の共感が信頼を生み、アポにつながっています。</div></div></div>'+
       '<div class="dl-row"><span class="di" style="background:var(--blue)">💡</span><div><div class="dn">通話後24hに「お礼＋次の一手」を送っている</div><div class="dm">仲村さん92% ／ あなた45%。"熱が冷めない間"の一報が成約差の主因です。</div></div></div>'+
       '<div class="dl-row"><span class="di" style="background:#7a6ff0">💡</span><div><div class="dn">面談の最後に必ず「紹介の一言」を添えている</div><div class="dm">仲村さん95% ／ あなた18%。紹介数の差は、ほぼここから生まれています。</div></div></div>'+
       '</div>'+
-      '<h3 '+H3+'>あなたの伸びしろ — こうすれば伸びます</h3>'+
+      '<h3 '+H3+'>あなたの伸びしろ：こうすれば伸びます</h3>'+
       '<div class="dl-list">'+
       '<div class="dl-row"><span class="di" style="background:var(--green)">1</span><div><div class="dn">初回架電に「深掘り質問」を1つ足す</div><div class="dm">例：「今、家計で一番気になっているのは何ですか？」</div></div><span class="todo-tag">今日から</span></div>'+
       '<div class="dl-row"><span class="di" style="background:var(--green)">2</span><div><div class="dn">通話後は当日中にお礼メッセージ</div><div class="dm">テンプレあり。24時間以内の一報を習慣に。</div></div><span class="todo-tag">今日から</span></div>'+
@@ -2018,6 +2021,18 @@
   function libOpen(id,target){ var s=libGetSeen(); s[id]=1; libSetSeen(s); libRefreshBadge(); openDetail(target||'generic'); }
   function libMarkAllSeen(){ var s=libGetSeen(); LIB_DOCS.forEach(function(i){ s[i]=1; }); libSetSeen(s); libRefreshBadge(); libDecorateDetail(); }
   (function(){ try{ libRefreshBadge(); }catch(e){} })();
+
+  // アクセシビリティ: クリック可能カードをキーボード操作可能に（Tab移動＋Enter/Spaceで開く）
+  (function(){
+    var cards=document.querySelectorAll('.clickable[data-detail]');
+    for(var i=0;i<cards.length;i++){
+      var c=cards[i];
+      if(!c.hasAttribute('tabindex')) c.setAttribute('tabindex','0');
+      c.setAttribute('role','button');
+      var h=c.querySelector('h2'); if(h && !c.getAttribute('aria-label')) c.setAttribute('aria-label',h.textContent+'（詳細を開く）');
+      c.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.click(); } });
+    }
+  })();
 
   function renderDetail_(key){
     var d, sep=key.indexOf(':');
