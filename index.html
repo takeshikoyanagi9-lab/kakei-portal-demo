@@ -361,6 +361,20 @@
   .rolebar select{font:inherit;font-weight:800;font-size:.85rem;padding:6px 12px;border-radius:999px;border:1.5px solid var(--blue);background:var(--bg);color:var(--ink);cursor:pointer}
   .rolebar .rb-note{color:var(--sub);font-size:.78rem;font-weight:600;flex:1;min-width:180px}
   .role-hidden{display:none!important}
+  /* 操作Q&A（クロード） */
+  .qa-teaser{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .qa-chip{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.82rem;font-weight:700;color:var(--sub)}
+  .qa-chat{display:flex;flex-direction:column;gap:12px;margin:8px 0 14px}
+  .qa-row{display:flex;gap:10px;align-items:flex-start}
+  .qa-row.u{justify-content:flex-end}
+  .qa-ava{width:34px;height:34px;border-radius:50%;background:var(--turq);color:#fff;display:grid;place-items:center;font-weight:900;font-size:.72rem;flex:none}
+  .qa-bub{max-width:82%;border-radius:14px;padding:10px 14px;font-size:.9rem;line-height:1.65}
+  .qa-bub.u{background:var(--blue);color:#fff;border-bottom-right-radius:5px}
+  .qa-bub.a{background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .qa-bub.a a{color:var(--turq);font-weight:800;text-decoration:none}
+  .qa-input{display:flex;gap:8px;margin-top:6px}
+  .qa-input input{flex:1;border:1.5px solid var(--line);border-radius:999px;padding:10px 16px;font:inherit;background:var(--bg)}
+  .qa-input button{background:var(--turq);color:#fff;border:0;border-radius:999px;padding:10px 20px;font-weight:800}
   .doc .meta{padding:10px 12px;display:flex;align-items:center;gap:8px}
   .doc .meta .dtag{font-size:.68rem;font-weight:800;color:#fff;border-radius:999px;padding:2px 8px}
   .doc .meta .dd{font-size:.74rem;color:var(--sub);font-weight:700;margin-left:auto}
@@ -1122,6 +1136,19 @@
     </div>
 
     <!-- ▼ 経営陣報告（管理情報・全幅・経営/管理者のみ） -->
+    <!-- 操作Q&A（クロード）：❶〜❸限定 -->
+    <div class="card col-12 clickable" style="--ac:var(--turq)" data-roles="y1,y2,y3" data-detail="opsqa"><span class="corner"></span>
+      <div class="hd"><span class="ic" style="background:var(--turq)"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></span>
+        <div><h2>操作Q&A（クロード）</h2><div class="sub">「この操作どうやる？」に、その場で答えるアシスタント</div></div><span class="badge" style="background:var(--turq)">❶〜❸限定</span></div>
+      <div class="qa-teaser">
+        <span class="qa-chip">営業マップの数値はどこを直す？</span>
+        <span class="qa-chip">社内報を資料室に追加するには？</span>
+        <span class="qa-chip">SNSの登録者数を更新したい</span>
+        <span class="qa-chip">研修の未受講者を確認したい</span>
+      </div>
+      <span class="go-hint">→</span>
+    </div>
+
     <div class="card col-12 clickable" style="--ac:#7a6ff0" data-detail="exec"><span class="corner"></span>
       <div class="hd"><span class="ic" style="background:#7a6ff0"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
         <div><h2>経営陣報告（管理情報）</h2><div class="sub">苦情・監査・モニタリング等を一元管理／PDCAを可視化</div></div><span class="badge" style="background:#7a6ff0">経営・管理者のみ</span></div>
@@ -2000,6 +2027,18 @@
         '<div class="doc" data-doc-id="guide-pii" data-date="常時"><div class="cov" style="background:linear-gradient(135deg,#e5544b,#f2743a)"><span class="cv-vol">GUIDE</span><span class="cv-t">個人情報<br>取扱いガイド</span></div><div class="meta"><span class="dtag" style="background:#e5544b">通達</span><span class="dd">常時</span></div><div class="open" onclick="libOpen(\'guide-pii\',\'generic\')">開く</div></div>'+
       '</div>'+
       '<p class="dnote">※ サンプル。社内報PDF等は<b>公開サイトには載せず</b> SharePoint ドキュメントライブラリ（アクセス制御）に保管し、Power Automate で「配信したら自動でここに追加＝自動でNEW表示」。既読管理・公開範囲もSharePointで付与。</p>'},
+    opsqa:{eyebrow:'OPERATION Q&A ／ クロード',title:'操作Q&A（クロード）',html:
+      '<p class="dlead">このイントラの<b>操作方法だけ</b>に答えるアシスタント（クロード）です。❶〜❸限定。迷ったらここで聞けば、手順とリンクをすぐ返します。<br><span style="color:var(--sub);font-size:.85rem">※このデモは会話サンプルです。本番は Claude を社内マニュアルに接続し、操作以外の質問には答えない設定にします。</span></p>'+
+      '<div class="qa-chat">'+
+        qaU('営業マップの「今日の申込」の数値はどこを直せばいい？')+
+        qaA('「今日の申込」は<b>自動集計</b>です。手入力ではなく、<b>営業ログ（SharePointリスト）に1件追加</b>すると自動で反映されます。<br>手順：①ホーム上部の「申込を登録」→ ②拠点・担当・種別を選ぶ → ③保存。数分でマップと件数に反映されます。<br><a>▶ 営業ログを開く</a>')+
+        qaU('新しい社内報を資料室に載せるには？')+
+        qaA('SharePointの<b>資料ライブラリ</b>にPDFをアップするだけで、資料室に<b>自動で「NEW」付き</b>で並びます。<br>手順：①資料ライブラリを開く → ②「社内報」フォルダにPDFをアップ → ③公開範囲（全社／管理者のみ 等）を選ぶ。<br><a>▶ 資料ライブラリを開く</a>')+
+        qaU('SNSの登録者数を更新したい')+
+        qaA('登録者数は<b>毎朝自動入力</b>です（YouTube・HP・LINE）。手で直す必要はありません。<b>空欄（TikTok・VOOM）だけ</b>管理画面から補完してください。担当は上間さんです。<br><a>▶ 自動入力の仕組み</a>')+
+      '</div>'+
+      '<div class="qa-input"><input placeholder="操作の質問を入力（例：研修の未受講者を確認したい）" aria-label="操作の質問" disabled><button disabled>送信</button></div>'+
+      '<p class="dnote">※ デモのため送信は無効です。本番は入力→クロードが回答。回答は<b>「操作方法」に限定</b>（数値の改ざんや機微情報の開示はしない設定）。❶〜❸のみ利用可。</p>'},
     'shaho-v1':{eyebrow:'社内報 ／ 家計の見直しやさん通信',title:'Vol.1（2026年5月号）',html:
       '<div style="background:linear-gradient(135deg,#8f86dd,#c7c1f2);color:#fff;border-radius:16px;padding:18px 20px;margin-bottom:14px"><div style="font-weight:800;opacity:.92;font-size:.8rem">VOL.001 ・ 2026年5月号</div><div style="font-weight:900;font-size:1.3rem;line-height:1.35;margin-top:4px">📣 プロパン7が会社SNSに登場！</div><div style="opacity:.95;font-size:.9rem;margin-top:4px">「家計の見直しやさん」を一緒に盛り上げよう！</div></div>'+
       '<p class="dlead">株式会社enLifeの公式SNS「家計の見直しやさん」の動画に、沖縄を代表するお笑いコンビ<b>「プロパン7」</b>のお二人が出演してくださることになりました（公開予定：2026年5月〜）。会社SNSの認知拡大に向けた大きなチャンスです。</p>'+
@@ -2104,6 +2143,10 @@
     try{ var s=localStorage.getItem('kakei_role'); if(s&&valid[s]) saved=s; }catch(e){}
     applyRole(saved);
   })();
+
+  // 操作Q&A（クロード）の会話バブル
+  function qaU(t){ return '<div class="qa-row u"><div class="qa-bub u">'+t+'</div></div>'; }
+  function qaA(t){ return '<div class="qa-row a"><span class="qa-ava">AI</span><div class="qa-bub a">'+t+'</div></div>'; }
 
   function renderDetail_(key){
     var d, sep=key.indexOf(':');
