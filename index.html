@@ -358,6 +358,20 @@
   .doc .meta .dd{font-size:.74rem;color:var(--sub);font-weight:700;margin-left:auto}
   .doc .open{margin:0 12px 12px;text-align:center;background:var(--ink);color:#fff;border-radius:9px;padding:8px;font-weight:800;font-size:.85rem;cursor:pointer}
   .doc .open:hover{filter:brightness(1.12)}
+  /* 資料室 新着(NEW)の仕掛け */
+  .doc{position:relative}
+  .doc.is-new{box-shadow:0 0 0 2px var(--red),0 8px 20px rgba(229,84,75,.22)}
+  .doc .newrib{position:absolute;top:9px;right:9px;z-index:2;background:var(--red);color:#fff;font-size:.66rem;font-weight:900;letter-spacing:.04em;padding:3px 9px;border-radius:999px;box-shadow:0 2px 6px rgba(229,84,75,.4);animation:newpulse 1.6s ease-in-out infinite}
+  @keyframes newpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+  .lib-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 14px}
+  .lib-newline{font-weight:800;color:var(--ink)}
+  .lib-newline b{color:var(--red)}
+  .lib-seen-btn{margin-left:auto;background:var(--bg);border:1px solid var(--line);color:var(--sub);border-radius:999px;padding:7px 14px;font-weight:800;font-size:.82rem;cursor:pointer}
+  .lib-seen-btn:hover{background:var(--card);color:var(--ink)}
+  .lib-new-badge{background:var(--red)!important}
+  .lib-row{position:relative}
+  .lib-row.is-new::after{content:"NEW";position:absolute;top:8px;right:10px;background:var(--red);color:#fff;font-size:.6rem;font-weight:900;padding:1px 7px;border-radius:999px}
+  .lib-row.is-new .lz{display:none}
   .gal{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
   .gal .ph{aspect-ratio:4/3;border-radius:12px;display:flex;align-items:flex-end;padding:8px;position:relative;overflow:hidden}
   .gal .ph .em{position:absolute;inset:0;display:grid;place-items:center;font-size:1.9rem;z-index:1;opacity:.92}
@@ -995,11 +1009,11 @@
     <!-- 資料室（社内報・SNS資料・通達が集まる場所） -->
     <div class="card col-4 clickable" style="--ac:var(--turq)" data-detail="library"><span class="corner"></span>
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
-        <div><h2>資料室</h2><div class="sub">社内報・SNS資料・通達が集まる場所</div></div><span class="badge">NEW</span></div>
+        <div><h2>資料室</h2><div class="sub">社内報・SNS資料・通達が集まる場所</div></div><span class="badge lib-new-badge" id="libNewBadge" style="display:none"></span></div>
       <div class="lib-mini">
-        <div class="lib-row"><span class="lib-ic" style="--lc:#7a6ff0">📖</span><div class="lb"><div class="lt">社内広報誌 Vol.3</div><div class="ls">社内報 ・ 最新号</div></div><span class="lz">最新</span></div>
-        <div class="lib-row"><span class="lib-ic" style="--lc:#16b6b0">📊</span><div class="lb"><div class="lt">SNSレポート 7月号</div><div class="ls">SNS資料 ・ 月次まとめ</div></div></div>
-        <div class="lib-row"><span class="lib-ic" style="--lc:#f2743a">📣</span><div class="lb"><div class="lt">募集ルール改定のお知らせ</div><div class="ls">通達 ・ 要確認</div></div></div>
+        <div class="lib-row" data-doc-id="shaho-v3"><span class="lib-ic" style="--lc:#7a6ff0">📖</span><div class="lb"><div class="lt">社内広報誌 Vol.3</div><div class="ls">社内報 ・ 最新号</div></div><span class="lz">最新</span></div>
+        <div class="lib-row" data-doc-id="sns-2607"><span class="lib-ic" style="--lc:#16b6b0">📊</span><div class="lb"><div class="lt">SNSレポート 7月号</div><div class="ls">SNS資料 ・ 月次まとめ</div></div></div>
+        <div class="lib-row" data-doc-id="tsutatsu-boshu"><span class="lib-ic" style="--lc:#f2743a">📣</span><div class="lb"><div class="lt">募集ルール改定のお知らせ</div><div class="ls">通達 ・ 要確認</div></div></div>
       </div>
       <span class="go-hint">→</span>
     </div>
@@ -1942,28 +1956,69 @@
       '<h3 '+H3+'>月別 苦情件数の推移（全体）</h3>'+trendSvg_(trendOverall_(),TREND_MONTHS,'#e5544b')+
       '<p class="dnote">※ サンプル。棒＝各月の苦情件数。閾値（例：苦情3件）超過で管理者へ自動アラート（Power Automate）。個人成績＝経営・管理者に限定。</p>'},
     library:{eyebrow:'LIBRARY',title:'資料室（社内報・SNS・通達）',html:
-      '<p class="dlead">配布された資料がここに集まります。<b>社内報・SNSレポート・通達</b>など。実装時は SharePoint ドキュメントライブラリと連携し、配信済みのPDF/レポートが自動で新しい順に並びます（種別で絞り込み・全文検索も可）。</p>'+
+      '<p class="dlead">配布された資料がここに集まります。<b>社内報・SNSレポート・通達</b>など。<b>新しく届いた資料には「NEW」</b>が付き、開くと消えます。実装時は SharePoint ドキュメントライブラリと連携し、配信済みが自動で新しい順に並びます。</p>'+
+      '<div class="lib-toolbar"><span id="libNewLine" class="lib-newline"></span><button class="lib-seen-btn" onclick="libMarkAllSeen()">すべて既読にする</button></div>'+
       '<div class="lib-cat">📖 社内報（社内広報誌）</div>'+
       '<div class="lib-grid">'+
-        '<div class="doc"><div class="cov" style="background:linear-gradient(135deg,#6a5df0,#a99ff7)"><span class="cv-vol">VOL.3</span><span class="cv-t">社内広報誌<br>Vol.3</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">最新号</span></div><div class="open" onclick="openDetail(\'generic\')">開く</div></div>'+
-        '<div class="doc"><div class="cov" style="background:linear-gradient(135deg,#7f74e6,#b3abf0)"><span class="cv-vol">VOL.2</span><span class="cv-t">社内広報誌<br>Vol.2</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">バックナンバー</span></div><div class="open" onclick="openDetail(\'generic\')">開く</div></div>'+
-        '<div class="doc"><div class="cov" style="background:linear-gradient(135deg,#8f86dd,#c7c1f2)"><span class="cv-vol">VOL.1</span><span class="cv-t">社内広報誌<br>Vol.1</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">バックナンバー</span></div><div class="open" onclick="openDetail(\'generic\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="shaho-v3" data-date="2026/07"><div class="cov" style="background:linear-gradient(135deg,#6a5df0,#a99ff7)"><span class="cv-vol">VOL.3</span><span class="cv-t">社内広報誌<br>Vol.3</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026/07</span></div><div class="open" onclick="libOpen(\'shaho-v3\',\'generic\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="shaho-v2" data-date="2026/04"><div class="cov" style="background:linear-gradient(135deg,#7f74e6,#b3abf0)"><span class="cv-vol">VOL.2</span><span class="cv-t">社内広報誌<br>Vol.2</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026/04</span></div><div class="open" onclick="libOpen(\'shaho-v2\',\'generic\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="shaho-v1" data-date="2026/01"><div class="cov" style="background:linear-gradient(135deg,#8f86dd,#c7c1f2)"><span class="cv-vol">VOL.1</span><span class="cv-t">社内広報誌<br>Vol.1</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026/01</span></div><div class="open" onclick="libOpen(\'shaho-v1\',\'generic\')">開く</div></div>'+
       '</div>'+
       '<div class="lib-cat">📊 SNS資料・レポート</div>'+
       '<div class="lib-grid">'+
-        '<div class="doc"><div class="cov" style="background:linear-gradient(135deg,#16b6b0,#5bd6cf)"><span class="cv-vol">2026.07</span><span class="cv-t">SNSレポート<br>7月号</span></div><div class="meta"><span class="dtag" style="background:#16b6b0">SNS</span><span class="dd">月次</span></div><div class="open" onclick="openDetail(\'sns\')">開く</div></div>'+
-        '<div class="doc"><div class="cov" style="background:linear-gradient(135deg,#1aa79f,#67c7c0)"><span class="cv-vol">2026.06</span><span class="cv-t">SNSレポート<br>6月号</span></div><div class="meta"><span class="dtag" style="background:#16b6b0">SNS</span><span class="dd">月次</span></div><div class="open" onclick="openDetail(\'sns\')">開く</div></div>'+
-        '<div class="doc"><div class="cov" style="background:linear-gradient(135deg,#4bb573,#8fd6a6)"><span class="cv-vol">DAILY</span><span class="cv-t">日次SNS<br>レポート</span></div><div class="meta"><span class="dtag" style="background:#4bb573">SNS</span><span class="dd">毎朝配信</span></div><div class="open" onclick="openDetail(\'sns\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="sns-2607" data-date="2026/07"><div class="cov" style="background:linear-gradient(135deg,#16b6b0,#5bd6cf)"><span class="cv-vol">2026.07</span><span class="cv-t">SNSレポート<br>7月号</span></div><div class="meta"><span class="dtag" style="background:#16b6b0">SNS</span><span class="dd">月次</span></div><div class="open" onclick="libOpen(\'sns-2607\',\'sns\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="sns-2606" data-date="2026/06"><div class="cov" style="background:linear-gradient(135deg,#1aa79f,#67c7c0)"><span class="cv-vol">2026.06</span><span class="cv-t">SNSレポート<br>6月号</span></div><div class="meta"><span class="dtag" style="background:#16b6b0">SNS</span><span class="dd">月次</span></div><div class="open" onclick="libOpen(\'sns-2606\',\'sns\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="sns-daily" data-date="毎朝"><div class="cov" style="background:linear-gradient(135deg,#4bb573,#8fd6a6)"><span class="cv-vol">DAILY</span><span class="cv-t">日次SNS<br>レポート</span></div><div class="meta"><span class="dtag" style="background:#4bb573">SNS</span><span class="dd">毎朝配信</span></div><div class="open" onclick="libOpen(\'sns-daily\',\'sns\')">開く</div></div>'+
       '</div>'+
       '<div class="lib-cat">📣 通達・お知らせ</div>'+
       '<div class="lib-grid">'+
-        '<div class="doc"><div class="cov" style="background:linear-gradient(135deg,#f2743a,#f6b60c)"><span class="cv-vol">重要</span><span class="cv-t">募集ルール<br>改定のお知らせ</span></div><div class="meta"><span class="dtag" style="background:#f2743a">通達</span><span class="dd">要確認</span></div><div class="open" onclick="openDetail(\'generic\')">開く</div></div>'+
-        '<div class="doc"><div class="cov" style="background:linear-gradient(135deg,#e5544b,#f2743a)"><span class="cv-vol">GUIDE</span><span class="cv-t">個人情報<br>取扱いガイド</span></div><div class="meta"><span class="dtag" style="background:#e5544b">通達</span><span class="dd">常時</span></div><div class="open" onclick="openDetail(\'generic\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="tsutatsu-boshu" data-date="2026/07"><div class="cov" style="background:linear-gradient(135deg,#f2743a,#f6b60c)"><span class="cv-vol">重要</span><span class="cv-t">募集ルール<br>改定のお知らせ</span></div><div class="meta"><span class="dtag" style="background:#f2743a">通達</span><span class="dd">要確認</span></div><div class="open" onclick="libOpen(\'tsutatsu-boshu\',\'generic\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="guide-pii" data-date="常時"><div class="cov" style="background:linear-gradient(135deg,#e5544b,#f2743a)"><span class="cv-vol">GUIDE</span><span class="cv-t">個人情報<br>取扱いガイド</span></div><div class="meta"><span class="dtag" style="background:#e5544b">通達</span><span class="dd">常時</span></div><div class="open" onclick="libOpen(\'guide-pii\',\'generic\')">開く</div></div>'+
       '</div>'+
-      '<p class="dnote">※ サンプル。社内報PDF・SNSレポート・通達は SharePoint ドキュメントライブラリに保管し、Power Automate で「配信したら自動でここに追加」。種別タグ・公開範囲（全社／管理者のみ等）・既読管理も付けられます。</p>'},
+      '<p class="dnote">※ サンプル。社内報PDF等は<b>公開サイトには載せず</b> SharePoint ドキュメントライブラリ（アクセス制御）に保管し、Power Automate で「配信したら自動でここに追加＝自動でNEW表示」。既読管理・公開範囲もSharePointで付与。</p>'},
     generic:{eyebrow:'PREVIEW',title:'準備中',html:'<div class="empty-ouchi"><span class="ouchi" onclick="ouchiTickle(this)" title="クリックしてみて！"><svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" aria-label="おうちくん（すやすや）"><g fill="#9aa8b4" opacity=".7" font-weight="900" font-family="Segoe UI"><text x="150" y="70" font-size="16">z</text><text x="162" y="54" font-size="21">Z</text></g><ellipse cx="100" cy="196" rx="50" ry="8" fill="#000" opacity=".07"/><rect x="80" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><rect x="104" y="176" width="18" height="16" rx="8" fill="#e7c79c"/><path d="M58 138 q-12 5 -11 21" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M142 138 q12 5 11 21" stroke="#e7c79c" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M100 74 C156 74 162 112 162 140 C162 172 134 186 100 186 C66 186 38 172 38 140 C38 112 44 74 100 74 Z" fill="#fff7ec" stroke="#f0dcc0" stroke-width="2"/><path d="M44 96 Q38 92 44 86 L94 44 Q100 39 106 44 L156 86 Q162 92 156 96 Z" fill="#e3a80f"/><rect x="130" y="60" width="11" height="18" rx="4" fill="#b9860a"/><path d="M76 126 q8 8 16 0" stroke="#33302e" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M108 126 q8 8 16 0" stroke="#33302e" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="70" cy="142" r="7.5" fill="#ffb39b" opacity=".85"/><circle cx="130" cy="142" r="7.5" fill="#ffb39b" opacity=".85"/><path d="M92 145 q8 6 16 0" stroke="#33302e" stroke-width="2.8" fill="none" stroke-linecap="round"/></svg></span></div><h1 class="dh" style="text-align:center">準備中…</h1><p class="dlead" style="text-align:center">この画面はサンプルです。おうちくんが準備をお昼寝しながら待っています。実装時にここへ一覧・詳細を表示します。</p>'}
   };
   var NAV=[];
+  // ===== 資料室：新着(NEW)の仕掛け（未読管理・localStorage） =====
+  var LIB_DOCS=['shaho-v3','shaho-v2','shaho-v1','sns-2607','sns-2606','sns-daily','tsutatsu-boshu','guide-pii'];
+  // 初回だけ「既知(=既読)」として入れておくID。ここに無いIDは初回からNEW表示になる。
+  var LIB_SEED_SEEN=['shaho-v2','shaho-v1','sns-2606','sns-daily','guide-pii'];
+  var LIB_KEY='kakei_lib_seen_v1';
+  function libGetSeen(){
+    try{
+      var raw=localStorage.getItem(LIB_KEY);
+      if(raw===null){ var seed={}; LIB_SEED_SEEN.forEach(function(i){seed[i]=1;}); localStorage.setItem(LIB_KEY,JSON.stringify(seed)); return seed; }
+      return JSON.parse(raw)||{};
+    }catch(e){
+      if(!window.__libSeen){ window.__libSeen={}; LIB_SEED_SEEN.forEach(function(i){window.__libSeen[i]=1;}); }
+      return window.__libSeen;
+    }
+  }
+  function libSetSeen(map){ try{ localStorage.setItem(LIB_KEY,JSON.stringify(map)); }catch(e){ window.__libSeen=map; } }
+  function libIsNew(id){ return !libGetSeen()[id]; }
+  function libNewCount(){ var s=libGetSeen(),c=0; LIB_DOCS.forEach(function(i){ if(!s[i]) c++; }); return c; }
+  function libRefreshBadge(){
+    var n=libNewCount(), b=document.getElementById('libNewBadge');
+    if(b){ if(n>0){ b.textContent='🆕 新着'+n+'件'; b.style.display=''; } else { b.style.display='none'; } }
+    var rows=document.querySelectorAll('.lib-mini .lib-row[data-doc-id]');
+    for(var i=0;i<rows.length;i++){ rows[i].classList.toggle('is-new', libIsNew(rows[i].getAttribute('data-doc-id'))); }
+  }
+  function libDecorateDetail(){
+    var docs=document.querySelectorAll('#dtBody .doc[data-doc-id]');
+    for(var i=0;i<docs.length;i++){
+      var id=docs[i].getAttribute('data-doc-id'), isnew=libIsNew(id);
+      docs[i].classList.toggle('is-new', isnew);
+      var rib=docs[i].querySelector('.newrib');
+      if(isnew && !rib){ var s=document.createElement('span'); s.className='newrib'; s.textContent='NEW'; docs[i].appendChild(s); }
+      else if(!isnew && rib){ rib.remove(); }
+    }
+    var line=document.getElementById('libNewLine');
+    if(line){ var n=libNewCount(); line.innerHTML = n>0 ? '🆕 新着 <b>'+n+'</b> 件（開くと既読になります）' : '✅ 新着はありません'; }
+  }
+  function libOpen(id,target){ var s=libGetSeen(); s[id]=1; libSetSeen(s); libRefreshBadge(); openDetail(target||'generic'); }
+  function libMarkAllSeen(){ var s=libGetSeen(); LIB_DOCS.forEach(function(i){ s[i]=1; }); libSetSeen(s); libRefreshBadge(); libDecorateDetail(); }
+  (function(){ try{ libRefreshBadge(); }catch(e){} })();
+
   function renderDetail_(key){
     var d, sep=key.indexOf(':');
     if(sep>0){ var base=key.slice(0,sep), arg=key.slice(sep+1);
@@ -1977,6 +2032,7 @@
     document.getElementById('dtEyebrow').textContent=d.eyebrow;
     document.getElementById('dtTitle').textContent=d.title;
     document.getElementById('dtBody').innerHTML=d.html;
+    if(key==='library') libDecorateDetail();
     var bb=document.getElementById('backBtn'); if(bb) bb.textContent=(NAV.length>1?'← 戻る':'← ホームに戻る');
     var v=document.getElementById('detail'); v.classList.add('open'); v.setAttribute('aria-hidden','false'); v.scrollTop=0;
     document.body.style.overflow='hidden';
