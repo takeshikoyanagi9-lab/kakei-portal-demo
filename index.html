@@ -350,9 +350,11 @@
   .lib-cat{font-weight:800;font-size:1.02rem;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
   .lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
   .doc{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);display:flex;flex-direction:column;box-shadow:0 4px 14px rgba(24,36,48,.06)}
-  .doc .cov{height:124px;display:grid;place-items:center;color:#fff;text-align:center;padding:12px;position:relative}
-  .doc .cov .cv-vol{position:absolute;top:9px;left:11px;font-size:.7rem;font-weight:800;opacity:.92;letter-spacing:.04em}
-  .doc .cov .cv-t{font-weight:900;font-size:1.08rem;line-height:1.35}
+  .doc .cov{min-height:130px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;text-align:center;padding:34px 12px 14px;position:relative}
+  .doc .cov .cv-vol{position:absolute;top:10px;left:12px;font-size:.7rem;font-weight:800;opacity:.92;letter-spacing:.04em}
+  .doc .cov .cv-t{font-weight:900;font-size:1.02rem;line-height:1.3}
+  .doc .newrib{max-width:44%}
+  .doc .doc-feat{padding:10px 12px 0;font-weight:800;font-size:.86rem;line-height:1.35;color:var(--ink)}
   .doc .meta{padding:10px 12px;display:flex;align-items:center;gap:8px}
   .doc .meta .dtag{font-size:.68rem;font-weight:800;color:#fff;border-radius:999px;padding:2px 8px}
   .doc .meta .dd{font-size:.74rem;color:var(--sub);font-weight:700;margin-left:auto}
@@ -1014,7 +1016,7 @@
       <div class="hd"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
         <div><h2>資料室</h2><div class="sub">社内報・SNS資料・通達が集まる場所</div></div><span class="badge lib-new-badge" id="libNewBadge" style="display:none"></span></div>
       <div class="lib-mini">
-        <div class="lib-row" data-doc-id="shaho-v3"><span class="lib-ic" style="--lc:#7a6ff0">📖</span><div class="lb"><div class="lt">社内広報誌 Vol.3</div><div class="ls">社内報 ・ 最新号</div></div><span class="lz">最新</span></div>
+        <div class="lib-row" data-doc-id="shaho-v3"><span class="lib-ic" style="--lc:#7a6ff0">📖</span><div class="lb"><div class="lt">社内広報誌 Vol.3</div><div class="ls">半期社長賞 授与式（7月号）</div></div><span class="lz">最新</span></div>
         <div class="lib-row" data-doc-id="sns-2607"><span class="lib-ic" style="--lc:#16b6b0">📊</span><div class="lb"><div class="lt">SNSレポート 7月号</div><div class="ls">SNS資料 ・ 月次まとめ</div></div></div>
         <div class="lib-row" data-doc-id="tsutatsu-boshu"><span class="lib-ic" style="--lc:#f2743a">📣</span><div class="lb"><div class="lt">募集ルール改定のお知らせ</div><div class="ls">通達 ・ 要確認</div></div></div>
       </div>
@@ -1963,9 +1965,9 @@
       '<div class="lib-toolbar"><span id="libNewLine" class="lib-newline"></span><button class="lib-seen-btn" onclick="libMarkAllSeen()">すべて既読にする</button></div>'+
       '<div class="lib-cat">📖 社内報（社内広報誌）</div>'+
       '<div class="lib-grid">'+
-        '<div class="doc" data-doc-id="shaho-v3" data-date="2026/07"><div class="cov" style="background:linear-gradient(135deg,#6a5df0,#a99ff7)"><span class="cv-vol">VOL.3</span><span class="cv-t">社内広報誌<br>Vol.3</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026/07</span></div><div class="open" onclick="libOpen(\'shaho-v3\',\'generic\')">開く</div></div>'+
-        '<div class="doc" data-doc-id="shaho-v2" data-date="2026/04"><div class="cov" style="background:linear-gradient(135deg,#7f74e6,#b3abf0)"><span class="cv-vol">VOL.2</span><span class="cv-t">社内広報誌<br>Vol.2</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026/04</span></div><div class="open" onclick="libOpen(\'shaho-v2\',\'generic\')">開く</div></div>'+
-        '<div class="doc" data-doc-id="shaho-v1" data-date="2026/01"><div class="cov" style="background:linear-gradient(135deg,#8f86dd,#c7c1f2)"><span class="cv-vol">VOL.1</span><span class="cv-t">社内広報誌<br>Vol.1</span></div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026/01</span></div><div class="open" onclick="libOpen(\'shaho-v1\',\'generic\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="shaho-v3" data-date="2026/07"><div class="cov" style="background:linear-gradient(135deg,#6a5df0,#a99ff7)"><span class="cv-vol">VOL.003</span><span class="cv-t">家計の見直しやさん通信<br>Vol.3</span></div><div class="doc-feat">🏆 第一回 ALLGrp 半期社長賞 授与式</div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026年7月号</span></div><div class="open" onclick="libOpen(\'shaho-v3\',\'generic\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="shaho-v2" data-date="2026/06"><div class="cov" style="background:linear-gradient(135deg,#7f74e6,#b3abf0)"><span class="cv-vol">VOL.002</span><span class="cv-t">家計の見直しやさん通信<br>Vol.2</span></div><div class="doc-feat">🚗 社用車（ラッピングカー）完成！</div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026年6月号</span></div><div class="open" onclick="libOpen(\'shaho-v2\',\'generic\')">開く</div></div>'+
+        '<div class="doc" data-doc-id="shaho-v1" data-date="2026/05"><div class="cov" style="background:linear-gradient(135deg,#8f86dd,#c7c1f2)"><span class="cv-vol">VOL.001</span><span class="cv-t">家計の見直しやさん通信<br>Vol.1</span></div><div class="doc-feat">📣 プロパン7が会社SNSに登場！</div><div class="meta"><span class="dtag" style="background:#7a6ff0">社内報</span><span class="dd">2026年5月号</span></div><div class="open" onclick="libOpen(\'shaho-v1\',\'generic\')">開く</div></div>'+
       '</div>'+
       '<div class="lib-cat">📊 SNS資料・レポート</div>'+
       '<div class="lib-grid">'+
